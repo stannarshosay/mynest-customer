@@ -1,0 +1,157 @@
+<!-- INNER BANNER START -->
+<div class="sl-inner-banner provider-inner-container">
+    <!-- IMG SLIDER START -->
+    <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingGalleryImages"></mat-spinner>
+    <owl-carousel-o [options]="providerSingleOptions" class="sl-owl-nav" id="serviceProviderSingleBanner" *ngIf="!isGettingGalleryImages">
+        <ng-container>
+            <ng-template carouselSlide *ngFor="let image of imageGallery; let i=index">
+                <div class="sl-img">
+                    <figure>
+                        <a class="sl-prettyPhotoImg" (click)="openGallery(i)" href="javascript:void(0)">
+                            <img [src]="image.thumb" alt="Image Description">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+                                <path id="Rectangle_1_copy" data-name="Rectangle 1 copy" class="cls-1" d="M26.156,2h1.688V52H26.156V2ZM2,26.156H52v1.688H2V26.156Z" transform="translate(-2 -2)"/>
+                            </svg>
+                        </a>
+                    </figure>
+                </div>
+            </ng-template>
+        </ng-container>
+    </owl-carousel-o>
+    <!-- IMG SLIDER END -->
+</div>
+<!-- INNER BANNER END -->
+<!-- MAIN START -->
+<main class="sl-main z-one">
+    <div class="container">
+        <div class="sl-appointment">
+            <a (click)="reportVendor()" class="report-provider sl-danger"><i class="ti-flag-alt"></i>&nbsp;Report</a>
+            <div class="sl-appointment__img">
+                <img src="https://mynestonline.com/collection/images/company-logo/{{getImagePath(provider.logo)}}" alt="Image Description">
+            </div>
+            <div class="sl-appointment__content">
+                <div class="sl-slider__tags">
+                    <a href="javascript:void(0);" class="sl-bg-gold" *ngIf="provider.premium">Premium</a>
+                    <a href="javascript:void(0);" class="sl-bg-green" *ngIf="provider.verified">Verified</a>
+                </div>
+                <h3>{{provider.companyName}}</h3>
+                <div class="sl-appointment__feature">
+                    <div class="sl-appointment__location">
+                        <em><i class="ti-location-pin"></i>&nbsp;<a  (click) ="$event.stopPropagation()" href="https://www.google.com/maps/search/?api=1&query=9.9708673,76.2382528" target="_blank">{{provider.location}}</a></em>
+                    </div>
+                </div>
+                <div class="sl-detail">
+                    <div class="sl-detail__date">
+                        <em><i class="ti-stamp"></i>GST Number: {{provider.gstNumber}}</em>
+                    </div>
+                    <div class="sl-detail__report">
+                        <div class="sl-shareHolder">
+                            <a (click)="toggleShareHolder($event)" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                            <div class="sl-shareHolder__option">
+                                <ul class="sl-socialicons">
+                                    <li class="sl-facebook">
+                                        <a (click)="$event.stopPropagation()" href="https://www.facebook.com/sharer/sharer.php?u={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                    </li>
+                                    <li class="sl-twitter">
+                                        <a (click)="$event.stopPropagation()" href="https://twitter.com/intent/tweet?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    </li>
+                                    <li class="sl-rss">
+                                        <a (click)="$event.stopPropagation()" href="https://mail.google.com/mail/?view=cm&fs=1&su={{getEncoded(provider.companyName)}}&body={{getShareLink(provider.vendorId)}}" target="_blank"><i class="far fa-envelope"></i></a>
+                                    </li>
+                                    <li class="sl-linkedin">
+                                        <a (click)="$event.stopPropagation()" href="https://www.linkedin.com/sharing/share-offsite/?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sl-detail__date" matRipple [matRippleColor]="color">
+                        <button class="btn sl-btn sl-btn-outline" (click)="checkBrochure(provider.brochureFilePath)"><i class="ti-download"></i>&nbsp;&nbsp;Brochure</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-appointment__note">
+                <div class="mn-contact">
+                    <a (click)="$event.stopPropagation()" href="https://wa.me/{{provider.whatsappNum}}/?text=Hello" target="_blank"><img src="assets/images/icons/whatsapp.png"></a>
+                    <a (click)="goToChatroom($event)" href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                </div>
+            </div>
+        </div>
+        <div class="sl-main-section">
+            <div class="row">
+                <div class="col-lg-4 col-xl-3">
+                    <aside id="sl-asidebar" class="sl-asidebar">
+                        <div class="sl-asideholder">
+                            <a href="javascript:void(0);" id="sl-closeasidebar" class="sl-closeasidebar">
+                                <i class="lnr lnr-layers"></i>
+                            </a>
+                            <div class="sl-asidescrollbar">
+                                <div class="sl-contactDetail">
+                                    <div class="sl-contactDetail__content">
+                                        <h5>Contact Details</h5>
+                                        <ul class="sl-contactDetail__descripton">
+                                            <li><i class="ti-map sl-headphone-icon"></i><address><a href="javascript:void(0)">{{provider.address}}</a></address></li>
+                                            <li><i class="ti-location-pin sl-address-icon"></i><address><a href="https://www.google.com/maps/search/?api=1&query={{provider.latitude}},{{provider.longitude}}" target="_blank">{{provider.location}}</a></address></li>
+                                            <li><i class="ti-email sl-email-icon"></i><a href="https://mail.google.com/mail/?view=cm&fs=1&to={{provider.email}}" target="_blank">{{provider.email}}</a></li>
+                                            <li><i class="ti-mobile sl-mobile-icon"></i><a href="javascript:void(0);">{{provider.mobile}}</a></li>
+                                        </ul>
+                                        <ul class="sl-contactDetail__brands" fxLayout="row" fxLayoutAlign="center center">
+                                            <li fxLayout="row" fxLayoutAlign="center center" class="sl-facebook fb-round" matRipple [matRippleColor]="color"><a href="javascript:void(0);" (click)="getDetailLink(provider.fbLink)"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li fxLayout="row" fxLayoutAlign="center center" class="sl-world-icon world-round" matRipple [matRippleColor]="color"><a href="javascript:void(0);" (click)="getDetailLink(provider.websiteLink)"><i class="ti-world sl-world-icon"></i></a></li>
+                                            <!-- <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li> -->
+                                            <li fxLayout="row" fxLayoutAlign="center center" class="sl-youtube youtube-round" matRipple [matRippleColor]="color"><a href="javascript:void(0);" (click)="getDetailLink(provider.youtubeLink)"><i class="fab fa-youtube"></i></a></li>
+                                        </ul>
+                                        <div matRipple [matRippleColor]="color">
+                                            <a href="javascript:void(0);" (click)="goToChatroom($event)" class="btn sl-btn sl-btn-active">Request Quote</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sl-sidebar-ad">
+                                    <a href="javascript:void(0);"><img src="https://mynestonline.com/collection/images/vendor-advertisement/{{serviceAd}}" alt="Image Description"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-lg-8 col-xl-9">
+                    <div class="sl-aboutFreelance">
+                        <div class="sl-title">
+                            <h4>About</h4>
+                        </div>
+                        <div class="sl-aboutFreelance__description">
+                            <p>{{provider.about}}</p>
+                        </div>
+                    </div>
+                    <div class="sl-offerServices">
+                        <div class="sl-title">
+                            <h4>Offered Services</h4>
+                        </div>
+                        <div class="sl-posts">
+                            <div class="sl-post" *ngFor="let service of services">
+                                <div class="sl-post__content">
+                                    <div class="sl-post__title">
+                                        <h5>{{service.subCategoryName}}</h5>
+                                    </div>
+                                </div>
+                                <div class="sl-post__description">
+                                    <p>{{service.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sl-audioVideoGallery" *ngIf="(provider.youtubeLink)&&(provider.youtubeLink != '')">
+                        <div class="sl-title">
+                            <h4>Video</h4>
+                        </div>
+                        <div class="sl-audioVideoGallery__content">
+                            <figure>
+                                <a class="sl-video__img" data-rel="prettyPhoto" href="{{provider.youtubeLink}}" target="_blank"><img src="assets/images/service-provider-single/video-gallery/img-02.jpg" alt="Image Description"></a>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- MAIN END -->

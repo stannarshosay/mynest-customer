@@ -1,0 +1,48 @@
+<!-- MAIN START -->
+<main class="sl-main">
+    <section class="sl-main-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
+                    <div class="sl-sectionHead">
+                        <div class="sl-sectionHead__title sl-below-line sl-below-line__active">
+                            <h2>Newsfeeds</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="sl-serviceProvider sl-serviceProvider-blog">
+                        <div class="row">
+                            <mat-spinner [diameter]="30" class="m-auto" [hidden]="isNewsfeedsLoaded"></mat-spinner>
+                            <div *ngIf="!isNewsfeedsDataSuccess" class="mn-no-results" fxLayout="column" fxLayoutAlign="center center">
+                                <img src="assets/images/vendor/no-results.png">
+                                <p>Sorry, no newsfeeds available currently.</p>
+                            </div>
+                            <div class="col-md-6 col-xl-4" *ngFor="let news of newsfeeds | paginate:config">
+                                <div class="sl-latestblog sl-featuredProducts--post" [routerLink]="['/newsfeed/'+news.newsId]" matRipple [matRippleColor]="darkColor" [matRippleRadius]="100">
+                                    <figure>
+                                        <img src="https://mynestonline.com/collection/images/newsfeed/{{getImagePath(news.imagePath)}}" alt="Image Description">
+                                    </figure>
+                                    <div class="sl-featuredProducts--post__content">
+                                        <div class="sl-featuredProducts--post__title">
+                                            <h5>{{news.title}}</h5>
+                                            <time>{{news.createdDate}}</time>
+                                            <div class="sl-description">
+                                                <p class="mn-news-p">{{checkLength(news.description)}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <pagination-controls (pageChange)="pageChange($event)" autoHide="true" responsive="true" previousLabel="" nextLabel=""></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+<!-- MAIN END -->

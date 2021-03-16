@@ -1,0 +1,381 @@
+<!-- BANNER TOP START -->
+<div class="sl-main-banner" *ngIf="showTopImages">
+    <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingHomeTopImages"></mat-spinner>
+    <owl-carousel-o [options]="mainBannerOptions" id="slBannerOwl" *ngIf="!isGettingHomeTopImages">
+        <ng-template *ngFor="let topAd of topAds" carouselSlide><img src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(topAd.picName)}}" alt="Image Description"></ng-template>
+    </owl-carousel-o>
+</div>
+<!-- BANNER END -->
+<!-- MAIN START -->
+<main class="sl-main pt-0">
+    <!-- CATEGORY START -->
+    <section class="sl-main-section category-background">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
+                    <div class="sl-sectionHead">
+                        <div class="sl-sectionHead__title sl-below-line sl-below-line__active">
+                            <h2>Choose Category</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-category sl-row">
+                <mat-spinner [diameter]="30" class="m-auto" [hidden]="isCategoryLoaded"></mat-spinner>
+                <div class="sl-col sl-col-sm-1-of-2 sl-col-md-1-of-3 sl-col-lg-1-of-4 sl-col-xl-1-of-5" *ngFor="let category of homeCategories">
+                    <div class="sl-category__service" (click)="goToVendorListing(category)">
+                        <img src="https://mynestonline.com/collection/images/category-icons/{{category.iconPath}}" alt="image Description">
+                        <div class="sl-category__description">
+                            <h5>{{category.categoryName}}</h5>
+                        </div>
+                        <div class="sl-category__icon"><i class="ti-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div matRipple [matRippleColor]="color">
+                <a routerLink="/categories" class="btn sl-btn sl-btn-active mn-all-category">View All</a>
+            </div>
+        </div>
+    </section>
+    <!-- CATEGORY END -->
+
+    <!-- SERVICE PROVIDER START -->
+    <!-- <section class="sl-main-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
+                    <div class="sl-sectionHead">
+                        <div class="sl-sectionHead__title sl-below-line sl-below-line__active">
+                            <h2>Featured Service Providers</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="slCategoryOwl">
+            <owl-carousel-o [options]="serviceProviderOptions" class="sl-owl-nav">
+                <ng-container>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/img-01.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/user-icon/img-01.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a>
+                                        <a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">Medical</a>
+                                    <h5><a href="javascript:void(0);">A Place Where We Care Life</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Cement</span>
+                                        <span>M Sand</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Leeds, UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/img-02.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/user-icon/img-02.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a><a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">IT Services</a>
+                                    <h5><a href="javascript:void(0);">Let’s Make Your Event Great</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Cement</span>
+                                        <span>M Sand</span>
+                                        <span>P Sand</span>
+                                        <span>Steel</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Manchester, UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0)"><img src="assets/images/index/service-provider/img-03.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0)"><img src="assets/images/index/service-provider/user-icon/img-03.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like sl-liked"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a><a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">IT Services</a>
+                                    <h5><a href="javascript:void(0)">We Plan, Manage and Enjoy</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Cement</span>
+                                        <span>M Sand</span>
+                                        <span>P Sand</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Birmingham, UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/img-04.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/user-icon/img-04.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like sl-liked"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a><a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">IT Services</a>
+                                    <h5><a href="javascript:void(0);">Give Your Day a New Start</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Pipes</span>
+                                        <span>Motors</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Newcastle, UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/img-05.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/user-icon/img-05.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a><a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">Handyman Services</a>
+                                    <h5><a href="javascript:void(0);">Professional Plumbers</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Cement</span>
+                                        <span>Garden</span>
+                                        <span>P Sand</span>
+                                        <span>Steel</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Sheffield , UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template carouselSlide>
+                        <div class="sl-slider" [routerLink]="['/provider']">
+                            <figure>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/img-06.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);"><img src="assets/images/index/service-provider/user-icon/img-06.jpg" alt="Image Description"></a>
+                                <a href="javascript:void(0);" class="sl-like"><i class="far fa-heart"></i></a>
+                            </figure>
+                            <div class="sl-slider__content">
+                                <div class="sl-slider__header">
+                                    <div class="sl-slider__tags">
+                                        <a href="javascript:void(0);" class="sl-bg-gold">Premium</a><a href="javascript:void(0);" class="sl-bg-green">Verified</a>
+                                        <div class="mn-contact">
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/whatsapp.png"></a>
+                                            <a href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0);">DIY & Lifestyle</a>
+                                    <h5><a href="javascript:void(0);">Spread Love With Flowers</a></h5>
+                                </div>
+                                <div class="sl-slider__footer">
+                                    <div class="mn-tags">
+                                        <span>Interior Works</span>
+                                        <span>M Sand</span>
+                                        <span>P Sand</span>
+                                    </div>
+                                    <div class="mn-footer-content">
+                                        <em>Southampton, UK (<a href="javascript:void(0);">Directions</a>)</em>
+                                        <div class="sl-shareHolder">
+                                            <a href="javascript:void(0);" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                            <div class="sl-shareHolder__option">
+                                                <span>Share:</span>
+                                                <ul class="sl-socialicons">
+                                                    <li class="sl-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                                                    <li class="sl-twitter"><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                                    <li class="sl-youtube"><a href="javascript:void(0);"><i class="fab fa-youtube"></i></a></li>
+                                                    <li class="sl-instagram"><a href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </owl-carousel-o>
+        </div>
+    </section> -->
+    <!-- SERVICE PROVIDER END -->
+    <!-- BANNER BOTTOM START -->
+    <div class="sl-main-banner" *ngIf="showBottomImages">
+        <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingHomeBottomImages"></mat-spinner>
+        <owl-carousel-o [options]="mainBannerOptions" id="slBannerOwlBottom" *ngIf="!isGettingHomeBottomImages">
+            <ng-template *ngFor="let bottomAd of bottomAds" carouselSlide><img src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(bottomAd.picName)}}" alt="Image Description"></ng-template>
+        </owl-carousel-o>
+    </div>
+    <!-- BANNER END -->
+
+    <!-- LATEST NEWSFEED START -->
+    <section class="sl-main-section" *ngIf="isNewsfeedAvailable">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
+                    <div class="sl-sectionHead">
+                        <div class="sl-sectionHead__title sl-below-line sl-below-line__active">
+                            <h2>Latest Newsfeeds</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-featuredProducts">
+                <mat-spinner [diameter]="30" class="m-auto" [hidden]="isNewsfeedLoaded"></mat-spinner>
+                <owl-carousel-o [options]="newsFeedsOptions" id="slNewsOwl" class="sl-owl-nav">
+                    <ng-container>
+                        <ng-template carouselSlide *ngFor="let news of homeNewsfeeds">
+                            <div>
+                                <div class="sl-latestblog sl-featuredProducts--post" [routerLink]="['/newsfeed/'+news.newsId]" matRipple [matRippleColor]="darkColor" [matRippleRadius]="100">
+                                    <figure>
+                                        <img src="https://mynestonline.com/collection/images/newsfeed/{{getImagePath(news.imagePath)}}" alt="Image Description">
+                                    </figure>
+                                    <div class="sl-featuredProducts--post__content">
+                                        <div class="sl-featuredProducts--post__title">
+                                            <h5>{{news.title}}</h5>
+                                            <time>{{news.createdDate}}</time>
+                                            <div class="sl-description">
+                                                <p class="mn-news-p">{{checkLength(news.description)}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </owl-carousel-o>
+                <div matRipple [matRippleColor]="color">
+                    <a routerLink="/newsfeeds" class="btn sl-btn sl-btn-active mn-all-category">View All</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- LATEST NEWSFEED END -->
+</main>
+<!-- MAIN END -->

@@ -1,0 +1,66 @@
+<div mat-dialog-title class="sl-popuptitle">
+    <h4>Register as Customer</h4>
+    <a href="javascript:void(0);" mat-dialog-close class="sl-closebtn close"><i class="lnr lnr-cross" data-dismiss="modal"></i></a>
+</div>
+<mat-dialog-content class="mat-typography">
+
+    <div class="sl-registersignarea">
+        <div class="tab-pane fade show active" id="signupprovider" role="tabpanel" aria-labelledby="sl-signupprovider">
+            <form class="sl-formtheme sl-signupform" [formGroup]="signupForm" (ngSubmit)="onSubmit(terms.checked)">
+                <fieldset>
+                    <div class="sl-signupform-wrap">
+                        <div class="form-group">
+                            <input type="text" formControlName="username" name="name" value="" class="form-control sl-form-control" placeholder="Username*" required="">
+                            <mat-error *ngIf="(!signupForm.get('username').valid)&&(isSubmitted)">Please enter a username</mat-error>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" formControlName="email" name="email" value="" class="form-control sl-form-control" placeholder="Email*">
+                            <mat-error *ngIf="(!signupForm.get('email').valid)&&(isSubmitted)">Email not valid</mat-error>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" formControlName="mobile" name="Phone" value="" class="form-control sl-form-control" placeholder="Phone*">
+                            <mat-error *ngIf="(!signupForm.get('mobile').valid)&&(isSubmitted)">Mobile number is invalid</mat-error>
+                        </div>
+                        <div class="form-group form-group-half">
+                            <input type="password" formControlName="password" name="password" value="" class="form-control sl-form-control" placeholder="Password*">
+                            <mat-error *ngIf="(!signupForm.get('password').valid)&&(isSubmitted)">Please enter password</mat-error>
+                        </div>
+                        <div class="form-group form-group-half">
+                            <input type="password" formControlName="rePassword" name="password" value="" class="form-control sl-form-control" placeholder="Retype Password*">
+                            <mat-error *ngIf="(!signupForm.get('rePassword').valid)&&(isSubmitted)">Please re enter password</mat-error>
+                        </div>
+                        <div class="form-group sl-btnarea">
+                            <div class="sl-checkbox" [hidden]="showSpinner">
+                                <input id="terms2" type="checkbox" name="category" #terms>
+                                <label for="terms2">
+                                                <span>I agree to <a href="javascript:void(0);">Terms and Conditions</a></span>
+                                            </label>
+                            </div>
+                            <mat-spinner [diameter]="30" class="m-auto" [hidden]="!showSpinner"></mat-spinner>
+                            <div matRipple [matRippleColor]="color">
+                                <button type="submit" class="btn sl-btn sl-btn-outline" [hidden]="showSpinner">Signup</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="sl-oroption">
+            <span>or</span>
+        </div>
+        <div class="sl-loginicon">
+            <ul>
+                <li matRipple [matRippleColor]="color"><a href="javascript:void(0);" class="sl-facebookbox"><i class="fab fa-facebook-f"></i>Signup via facebook</a></li>
+                <li matRipple [matRippleColor]="color"><a href="javascript:void(0);" class="sl-googlebox"><i class="fab fa-google"></i>Signup via google</a></li>
+            </ul>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="">
+        <div fxFlex="50" class="sl-registerarea__terms">
+            <p>By signing up you agree to these <a href="javascript:void(0);">Terms &amp; Conditions</a> &amp; consent to <a href="javascript:void(0);"> Cookie Policy &amp; Privacy Policy.</a></p>
+        </div>
+        <div fxFlex="50" class="sl-registerarea__footer">
+            <p> Already a member? <a href="javascript:void(0);" (click)="login()"> Login Now</a></p>
+        </div>
+    </div>
+</mat-dialog-content>

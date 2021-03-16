@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Recieved quotes</h1>
+<mat-dialog-content class="mat-typography">
+    <div *ngIf="!isGettingSuccess" class="mn-no-results pr-5 pl-5" fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/images/vendor/no-results.png">
+        <p>No quotes recieved yet.</p>
+    </div>
+    <div class="sl-dashboardbox sl-newAppointments" *ngIf="!isGetting&&isGettingSuccess">
+        <div class="sl-dashboardbox__content">
+            <ul>
+                <li class="sl-newAppointments__items sl-allAppointments-notification sl-allAppointments-notification__unread" *ngFor="let quote of quotes">
+                    <div class="sl-newAppointments__detail">
+                        <div class="sl-newAppointments__userDetail" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="sl-newAppointments__userText">
+                                <h5><a mat-dialog-close routerLink="/provider/{{quote.vendorId}}">{{quote.companyName}}</a></h5>
+                                <p>{{quote.quotedDate}}</p>
+                            </div>
+                            <div class="mn-contact" fxLayout="row" fxLayoutAlign="center center">
+                                <a (click)="$event.stopPropagation()" href="https://wa.me/{{quote.whatsappNum}}/?text=Hello" target="_blank"><img src="assets/images/icons/whatsapp.png"></a>
+                                <a (click)="goToChatroom($event,quote)" href="javascript:void(0);"><img src="assets/images/icons/chatblu.png"></a>
+                            </div>
+                        </div>
+                        <div class="sl-newAppointments__services">
+                            <div class="sl-newAppointments__services--description">
+                                <div matRipple [matRippleColor]="color">
+                                    <a href="javascript:void(0);" (click)="downloadQuote(quote.quoteFileName)" matTooltip="{{quote.quoteFileName}}" class="btn sl-btn sl-btn-outline"><i class="ti-download"></i>&nbsp;&nbsp;Quote</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-spinner [diameter]="30" class="m-auto mt-3" *ngIf="isGetting"></mat-spinner>
+    <div matRipple [matRippleColor]="color" *ngIf="!isGetting">
+        <button mat-button mat-dialog-close class="btn sl-btn sl-btn-active">Close</button>
+    </div>
+</mat-dialog-actions>

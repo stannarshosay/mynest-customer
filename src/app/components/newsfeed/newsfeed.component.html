@@ -1,0 +1,31 @@
+<main class="sl-main">
+    <div class="container">
+        <mat-spinner [diameter]="30" class="m-auto" [hidden]="isNewsfeedLoaded"></mat-spinner>
+        <div *ngIf="!isNewsfeedDataSuccess" class="mn-no-results" fxLayout="column" fxLayoutAlign="center center">
+            <img src="assets/images/vendor/no-results.png">
+            <p>Sorry, no newsfeed available currently.</p>
+        </div>
+        <div class="m-auto" *ngIf="news">
+            <div class="sl-blogsingle">
+                <figure class="sl-blogsingle__img">
+                    <img src="https://mynestonline.com/collection/images/newsfeed/{{getImagePath(news.imagePath)}}" alt="News pic">
+                </figure>
+                <div class="sl-blogsinglehead">
+                    <div class="sl-blogsinglehead__title">
+                        <h2>{{news.title}}</h2>
+                    </div>
+                    <ul class="sl-blogsinglehead__blogpostmeta">
+                        <li>
+                            <a href="javascript:void(0);">
+                                <i class="ti-calendar"></i><span>{{news.createdDate}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sl-blogsingle__description">
+                    <p>{{news.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

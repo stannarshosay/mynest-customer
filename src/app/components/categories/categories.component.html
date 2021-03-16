@@ -1,0 +1,30 @@
+<main class="sl-main">
+    <!-- CATEGORY START -->
+    <section class="sl-main-section categories-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-xl-8">
+                    <div class="sl-sectionHead">
+                        <div class="sl-sectionHead__title sl-below-line sl-below-line__active">
+                            <h2>Choose Category</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-category sl-row">
+                <mat-spinner [diameter]="30" class="m-auto" [hidden]="isCategoryLoaded"></mat-spinner>
+                <div class="sl-col sl-col-sm-1-of-2 sl-col-md-1-of-3 sl-col-lg-1-of-4 sl-col-xl-1-of-5" *ngFor="let category of homeCategories">
+                    <div class="sl-category__service" (click)="goToVendorListing(category)">
+                        <img src="https://mynestonline.com/collection/images/category-icons/{{category.iconPath}}" alt="image Description">
+                        <div class="sl-category__description">
+                            <h5>{{category.categoryName}}</h5>
+                        </div>
+                        <div class="sl-category__icon"><i class="ti-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CATEGORY END -->
+</main>
+<!--MAIN END-->

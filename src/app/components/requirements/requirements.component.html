@@ -1,0 +1,112 @@
+<main class="sl-main">
+    <!-- SERVICE PROVIDER START -->
+    <section class="sl-main-section p-small">
+        <div class="container">
+            <mat-tab-group mat-align-tabs="center" dynamicHeight [(selectedIndex)]="selectedTab">
+                <mat-tab label="Active Requirement">
+                    <br>
+                    <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingActiveRequirements"></mat-spinner>
+                    <div *ngIf="!isGettingActiveRequirementsSuccess" class="mn-no-results" fxLayout="column" fxLayoutAlign="center center">
+                        <img src="assets/images/vendor/no-results.png">
+                        <p>No active requirements.</p>
+                    </div>
+                    <mat-accordion *ngIf="!isGettingActiveRequirements">
+                        <mat-expansion-panel *ngFor="let requirement of activeRequirements">
+                            <mat-expansion-panel-header>
+                                <div class="sl-newAppointments__userDetail">
+                                    <div class="sl-newAppointments__userText">
+                                        <h5>{{requirement.categoryId}}</h5>
+                                        <p>{{requirement.createdDate}}</p>
+                                    </div>
+                                </div>
+                                <div class="sl-newAppointments__services">
+                                    <div class="sl-newAppointments__services--description">
+                                        <h6>Preffered locations</h6>
+                                        <ul>
+                                            <li *ngFor="let loc of requirement.locations">
+                                                <p>{{loc}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div matRipple [matRippleColor]="color">
+                                    <a href="javascript:void(0);" (click)="viewAllQoutes(requirement.requirementId,$event)" class="btn sl-btn sl-btn-outline">View qoutes</a>
+                                </div>
+                            </mat-expansion-panel-header>
+                            <div class="requirement-content" fxLayout="row" fxLayoutAlign="start">
+                                <img fxFlex="50" *ngIf="(requirement.picName)&&(requirement.picName.trim()!='')" src="https://mynestonline.com/collection/images/requirements/{{requirement.picName}}">
+                                <div class="p-5" [attr.fxFlex]="((requirement.picName)&&(requirement.picName.trim()!=''))?50:100">
+                                    <div class="requirement-contact" fxLayout="row" fxLayoutAlign="center center" *ngIf="(requirement.contact)&&(requirement.contact!='')">
+                                        <mat-icon>phone</mat-icon>
+                                        <span class="ml-1">{{requirement.contact}}</span>
+                                    </div>
+                                    <p>&ldquo;{{requirement.description}}&rdquo;</p>
+                                </div>
+                            </div>
+                            <mat-action-row>
+                                <div matRipple [matRippleColor]="color">
+                                    <a href="javascript:void(0);" (click)="closeRequirement(requirement.requirementId)" class="btn sl-btn sl-btn-danger">Close</a>
+                                </div>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                </mat-tab>
+                <mat-tab label="Closed Requirement">
+                    <br>
+                    <mat-spinner [diameter]="30" class="m-auto mt-3" *ngIf="isGettingClosedrequirements"></mat-spinner>
+                    <div *ngIf="!isGettingClosedrequirementsSuccess" class="mn-no-results" fxLayout="column" fxLayoutAlign="center center">
+                        <img src="assets/images/vendor/no-results.png">
+                        <p>No closed requirements.</p>
+                    </div>
+                    <mat-accordion *ngIf="!isGettingClosedrequirements">
+                        <mat-expansion-panel *ngFor="let requirement of closedRequirements | paginate:config">
+                            <mat-expansion-panel-header>
+                                <div class="sl-newAppointments__userDetail">
+                                    <div class="sl-newAppointments__userText">
+                                        <h5>{{requirement.categoryId}}</h5>
+                                        <p>{{requirement.createdDate}}</p>
+                                    </div>
+                                </div>
+                                <div class="sl-newAppointments__services">
+                                    <div class="sl-newAppointments__services--description">
+                                        <h6>Preffered locations</h6>
+                                        <ul>
+                                            <li *ngFor="let loc of requirement.locations">
+                                                <p>{{loc}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div matRipple [matRippleColor]="color">
+                                    <a href="javascript:void(0);" (click)="viewQuotes(requirement.requirementId,$event)" class="btn sl-btn sl-btn-outline">View quotes</a>
+                                </div>
+                            </mat-expansion-panel-header>
+                            <div class="requirement-content" fxLayout="row" fxLayoutAlign="start">
+                                <img fxFlex="50" *ngIf="(requirement.picName)&&(requirement.picName.trim()!='')" src="https://mynestonline.com/collection/images/requirements/{{requirement.picName}}">
+                                <div class="p-3" [attr.fxFlex]="((requirement.picName)&&(requirement.picName.trim()!=''))?50:100">
+                                    <div class="requirement-contact" fxLayout="row" fxLayoutAlign="center center" *ngIf="(requirement.contact)&&(requirement.contact!='')">
+                                        <mat-icon>phone</mat-icon>
+                                        <span class="ml-1">{{requirement.contact}}</span>
+                                    </div>
+                                    <p>&ldquo;{{requirement.description}}&rdquo;</p>
+                                </div>
+                            </div>
+                            <mat-action-row fxLayout="column">
+                                <h6>Closing note</h6>
+                                <p>{{requirement.closingNote}}</p>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                    <div class="row">
+                        <div class="col-12">
+                            <pagination-controls (pageChange)="pageChange($event)" autoHide="true" responsive="true" previousLabel="" nextLabel=""></pagination-controls>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </section>
+</main>

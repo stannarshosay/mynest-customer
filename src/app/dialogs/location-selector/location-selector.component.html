@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Select location</h1>
+<mat-dialog-content class="mat-typography">
+    <mat-spinner [diameter]="30" class="m-auto" [hidden]="isLoaded"></mat-spinner>
+    <mat-nav-list>
+        <a mat-list-item (click)="saveLocation(location)" *ngFor="let location of locationList">{{location.district}}</a>
+    </mat-nav-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div matRipple [matRippleColor]="color">
+        <button mat-button mat-dialog-close class="btn sl-btn sl-btn-active">Cancel</button>
+    </div>
+</mat-dialog-actions>

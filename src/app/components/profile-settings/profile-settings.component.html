@@ -1,0 +1,54 @@
+<div class="container pt-5 pb-5">
+    <div class="sl-tab sl-profileSetting">
+        <mat-vertical-stepper>
+            <mat-step label="Change password">
+                <div class="sl-dashboardbox__content">
+                    <form class="sl-form sl-manageServices" [formGroup]="changePasswordForm">
+                        <fieldset>
+                            <div class="sl-form__wrap">
+                                <div class="form-group form-group-half">
+                                    <input class="form-control sl-form-control" formControlName="password" type="password" placeholder="New password*">
+                                </div>
+                                <div class="form-group form-group-half">
+                                    <input class="form-control sl-form-control" formControlName="repassword" type="password" placeholder="Retype password*">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <mat-spinner [diameter]="30" class="m-auto" *ngIf="isChanging"></mat-spinner>
+                <div matRipple [matRippleColor]="color">
+                    <button class="btn sl-btn sl-btn-outline" *ngIf="!isChanging" (click)="changePassword()">Change</button>
+                </div>
+            </mat-step>
+            <mat-step label="Upload profile pic" state="done">
+                <div class="sl-dashboardbox__content">
+                    <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingProfileDetails"></mat-spinner>
+                    <form class="sl-form sl-manageServices" *ngIf="!isGettingProfileDetails">
+                        <div class="pb-3" fxLayout="row" fxLayoutAlign="space-between">
+                            <p><i class="ti-user"></i>&nbsp;{{customerData.username}}</p>
+                            <p><i class="ti-email"></i>&nbsp;{{customerData.email}}</p>
+                            <p><i class="ti-mobile"></i>&nbsp;{{customerData.mobile}}</p>
+                        </div>
+                        <fieldset>
+                            <div class="sl-form__wrap">
+                                <div class="form-group mn-uploader">
+                                    <input class="form-control sl-form-control" (change)="onProfileSelect($event)" type="file" hidden #profileFileInput accept="image/*">
+                                    <div matRipple [matRippleColor]="color">
+                                        <button class="btn sl-btn sl-btn-active" (click)="profileFileInput.click()">Choose profile&nbsp;{{profileProgress==0?'':profileProgress+'%'}}</button>
+                                    </div>
+                                    <img *ngFor='let url of profilePreview' [src]="url" height="150" width="200px" style="margin: 3px;border-radius: 4px;"> <br *ngIf="profilePreview.length" />
+                                    <mat-progress-bar mode="determinate" *ngIf="profileProgress!=0" [value]="profileProgress"></mat-progress-bar>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <mat-spinner [diameter]="30" class="m-auto" [hidden]="!isUploading"></mat-spinner>
+                <div matRipple [matRippleColor]="color">
+                    <button class="btn sl-btn sl-btn-outline" routerLink="/home" [hidden]="isUploading">Home</button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+</div>

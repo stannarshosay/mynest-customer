@@ -1,0 +1,48 @@
+<div mat-dialog-title class="sl-popuptitle">
+    <h4>Login</h4>
+    <a href="javascript:void(0);" mat-dialog-close class="sl-closebtn close"><i class="lnr lnr-cross" data-dismiss="modal"></i></a>
+</div>
+<mat-dialog-content class="mat-typography">
+    <form class="sl-formtheme sl-formlogin">
+        <fieldset>
+            <div class="form-group">
+                <input type="text" [formControl]="username" name="username" class="form-control sl-form-control" placeholder="Username*">
+            </div>
+            <div class="form-group">
+                <input type="password" [formControl]="password" class="form-control sl-form-control" placeholder="Password*">
+            </div>
+            <div class="form-group sl-btnarea">
+                <div matRipple [matRippleColor]="color">
+                    <a (click)="login()" href="javascript:void(0);" class="btn sl-btn sl-btn-outline" [hidden]="!isLogging">login</a>
+                </div>
+                <mat-spinner [diameter]="30" class="m-auto" [hidden]="isLogging"></mat-spinner>
+            </div>
+        </fieldset>
+    </form>
+    <span class="sl-optionsbar"><em>or</em></span>
+    <div class="sl-loginicon">
+        <ul>
+            <li>
+                <div matRipple [matRippleColor]="color">
+                    <a href="javascript:void(0);" class="sl-facebookbox"><i class="fab fa-facebook-f"></i>Via facebook</a>
+                </div>
+            </li>
+            <li>
+                <div matRipple [matRippleColor]="color">
+                    <a href="javascript:void(0);" class="sl-googlebox"><i class="fab fa-google"></i>Via google</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="sl-popup-footerterms">
+        <span>By signing in  you agree to these <a href="legalprivacy.html"> Terms &amp; Conditions</a> &amp; consent to<a href="legalprivacy.html"> Cookie Policy &amp; Privacy Policy.</a></span>
+    </div>
+    <div class="sl-loginfooterinfo" fxLayout="row nowrap" fxLayoutAlign="space-around center">
+        <a href="javascript:void(0);" fxFlex="50" (click)="signup()"><em>Not a member?</em> Signup Now</a>
+        <a href="javascript:void(0);" fxFlex="50" class="sl-forgot-password" (click)="forgotPassword()">Forgot password?</a>
+    </div>
+</mat-dialog-content>
+
+<!-- <mat-dialog-actions align="center">
+    
+</mat-dialog-actions> -->
