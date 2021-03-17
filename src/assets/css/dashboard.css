@@ -1410,74 +1410,8 @@ textarea.sl-form-control,
     color: #ff7043;
 }
 
-.sl-asideshow .sl-closeasidebar {
-    border-radius: 50%;
-    margin-right: -21px;
-}
-
 .sl-scrollY-none {
     overflow-y: hidden;
-}
-
-header {
-    position: relative;
-}
-
-.sl-main-header {
-    background-color: #363636;
-}
-
-.sl-main-header__logo {
-    justify-content: center;
-    width: 12rem;
-    padding: 1.25rem;
-    min-height: 130px;
-}
-
-.sl-main-header__logo img {
-    display: block;
-    margin: 0 auto;
-}
-
-.sl-main-header__content {
-    display: flex;
-    flex-direction: column;
-    flex-basis: auto;
-    width: calc(100% - 12rem);
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.sl-main-header__upper {
-    min-height: 80px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0 20px;
-    flex-wrap: wrap;
-    z-index: 9;
-    position: relative;
-}
-
-.sl-main-header__upper .sl-input-group {
-    margin-right: auto;
-}
-
-.sl-main-header__lower {
-    justify-content: space-between;
-    flex-wrap: wrap;
-    min-height: 49px;
-    padding: 0 20px;
-}
-
-.sl-main-header__lower nav {
-    padding: 0;
-}
-
-.sl-main-header__lower--btn {
-    display: none;
-}
-
-.sl-main-header__lower--btn .sl-btn {
-    min-width: 80px;
-    height: 36px;
 }
 
 .sl-loading {
@@ -7806,34 +7740,6 @@ i.at-color6 {
         -ms-transition: all .6s ease-in-out;
         -o-transition: all .6s ease-in-out;
         transition: all .6s ease-in-out;
-    }
-    .sl-asidescrollbar {
-        width: 100%;
-        height: 100%;
-        overflow-x: scroll;
-        position: relative;
-    }
-    .sl-asideshow {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 99;
-        position: fixed;
-        background: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0.6) 100%);
-        background: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0.6) 100%);
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0.6) 100%);
-    }
-    .sl-asideshow .sl-asideholder {
-        -webkit-transform: translateX(0);
-        -moz-transform: translateX(0);
-        -ms-transform: translateX(0);
-        -o-transform: translateX(0);
-        transform: translateX(0);
-    }
-    .sl-asideshow .at-closesidebar {
-        right: 0;
-        margin-right: -20px;
     }
     .sl-closeasidebar {
         display: flex;

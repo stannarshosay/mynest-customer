@@ -11,7 +11,7 @@
                         <p>No active requirements.</p>
                     </div>
                     <mat-accordion *ngIf="!isGettingActiveRequirements">
-                        <mat-expansion-panel *ngFor="let requirement of activeRequirements">
+                        <mat-expansion-panel *ngFor="let requirement of activeRequirements" class="req-expansion-panel">
                             <mat-expansion-panel-header>
                                 <div class="sl-newAppointments__userDetail">
                                     <div class="sl-newAppointments__userText">
@@ -60,7 +60,7 @@
                         <p>No closed requirements.</p>
                     </div>
                     <mat-accordion *ngIf="!isGettingClosedrequirements">
-                        <mat-expansion-panel *ngFor="let requirement of closedRequirements | paginate:config">
+                        <mat-expansion-panel *ngFor="let requirement of closedRequirements | paginate:config" class="req-expansion-panel">
                             <mat-expansion-panel-header>
                                 <div class="sl-newAppointments__userDetail">
                                     <div class="sl-newAppointments__userText">
@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div matRipple [matRippleColor]="color">
-                                    <a href="javascript:void(0);" (click)="viewQuotes(requirement.requirementId,$event)" class="btn sl-btn sl-btn-outline">View quotes</a>
+                                    <a href="javascript:void(0);" (click)="viewAllQoutes(requirement.requirementId,$event)" class="btn sl-btn sl-btn-outline">View quotes</a>
                                 </div>
                             </mat-expansion-panel-header>
                             <div class="requirement-content" fxLayout="row" fxLayoutAlign="start">

@@ -92,7 +92,8 @@ export class HeaderComponent implements OnInit {
           this.setMessageUnreadCount();
           this.setMessagesNav();
         }else{
-          this.customerProfile = encodeURIComponent("default.jpg");
+          this.isNavMessagesLoaded = true;
+          this.navMessages = "";
         }
     });
     this.getProfileChangeStatus = this.customerService.getLogoChangeStatus().subscribe(res =>{      
