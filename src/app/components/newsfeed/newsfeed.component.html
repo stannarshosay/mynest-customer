@@ -16,9 +16,35 @@
                     </div>
                     <ul class="sl-blogsinglehead__blogpostmeta">
                         <li>
-                            <a href="javascript:void(0);">
-                                <i class="ti-calendar"></i><span>{{news.createdDate}}</span>
-                            </a>
+                            <div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="20px">
+                                <a href="javascript:void(0);">
+                                    <i class="ti-calendar"></i><span>{{getBeautifiedDate(news.createdDate)}}</span>
+                                </a>
+                                <div class="sl-shareHolder">
+                                    <a (click)="$event.stopPropagation()" mat-button [matMenuTriggerFor]="belowMenu" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                    <mat-menu #belowMenu="matMenu" yPosition="above" xPosition="before">
+                                        <div class="sl-shareHolder__option">
+                                            <ul class="sl-socialicons">
+                                                <li class="sl-facebook">
+                                                    <a (click)="$event.stopPropagation()" href="https://www.facebook.com/sharer/sharer.php?u={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li class="sl-twitter">
+                                                    <a (click)="$event.stopPropagation()" href="https://twitter.com/intent/tweet?url={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li class="sl-rss">
+                                                    <a (click)="$event.stopPropagation()" href="https://mail.google.com/mail/?view=cm&fs=1&su={{getEncoded(news.title)}}&body={{getShareLink(news.newsId)}}" target="_blank"><i class="far fa-envelope"></i></a>
+                                                </li>
+                                                <li class="sl-linkedin">
+                                                    <a (click)="$event.stopPropagation()" href="https://www.linkedin.com/sharing/share-offsite/?url={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                                <li class="sl-whatsapp">
+                                                    <a (click)="$event.stopPropagation()" href="https://wa.me/?text={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </mat-menu>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsfeedService } from 'src/app/services/newsfeed.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-newsfeeds',
@@ -46,8 +47,8 @@ export class NewsfeedsComponent implements OnInit {
     });
   }
   checkLength(description:string){    
-    if(description.length>110){
-      return description.substring(0,110) +" ...";
+    if(description.length>95){
+      return description.substring(0,95) +" ...";
     }
     return description;
  }
@@ -56,5 +57,21 @@ export class NewsfeedsComponent implements OnInit {
     return encodeURIComponent(image);
   }
   return encodeURIComponent("default.jpg");
+}
+getShareLink(id:any){    
+  return encodeURIComponent("https://mynestonline.com/customer/newsfeed/"+id);
+}
+getEncoded(data:any){
+  return encodeURIComponent(data);
+}
+getBeautifiedDate(dateString:string){
+  let date = moment(dateString, "DD/MM/YYYY");
+  if(date.isSame(moment(),'day')){
+    return "Today";
+  }
+  if(date.isSame(moment().subtract(1,"days"),'day')){      
+    return "Yesterday";
+  }
+  return date.format('Do MMM YYYY');
 }
 }

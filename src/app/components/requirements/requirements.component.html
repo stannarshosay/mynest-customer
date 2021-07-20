@@ -16,6 +16,7 @@
                                 <div class="sl-newAppointments__userDetail">
                                     <div class="sl-newAppointments__userText">
                                         <h5>{{requirement.categoryId}}</h5>
+                                        <div *ngIf="requirement.subCategoryName" class="element-subcategory"><small>{{requirement.subCategoryName}}</small></div>
                                         <p>{{requirement.createdDate}}</p>
                                     </div>
                                 </div>
@@ -65,6 +66,7 @@
                                 <div class="sl-newAppointments__userDetail">
                                     <div class="sl-newAppointments__userText">
                                         <h5>{{requirement.categoryId}}</h5>
+                                        <div *ngIf="requirement.subCategoryName" class="element-subcategory"><small>{{requirement.subCategoryName}}</small></div>
                                         <p>{{requirement.createdDate}}</p>
                                     </div>
                                 </div>

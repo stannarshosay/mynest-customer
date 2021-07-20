@@ -15,7 +15,7 @@
                 <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingCategoryAndLocations"></mat-spinner>
 
                 <div class="sl-dashboardbox__content" *ngIf="!isGettingCategoryAndLocations">
-                    <form class="sl-form sl-manageServices" [formGroup]="postRequirementForm">
+                    <form class="sl-form sl-manageServices" [formGroup]="postRequirementForm" #formDirective="ngForm">
                         <fieldset>
                             <div class="sl-form__wrap">
                                 <mat-form-field appearance="outline">
@@ -23,6 +23,14 @@
                                     <mat-select formControlName="categoryId">
                                         <mat-option value="{{category.categoryId}}" *ngFor="let category of categories">{{category.categoryName}}</mat-option>
                                     </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="subcategory-drop" appearance="outline" [matTooltip]="isGettingSubcategories?'subcategories not fetched, if selected category please wait':'choose subcategory'">
+                                    <mat-label>Subcategory</mat-label>
+                                    <mat-select formControlName="subCategoryId">
+                                        <mat-option>All</mat-option>
+                                        <mat-option value="{{sub.subCategoryId}}" *ngFor="let sub of subCategories">{{sub.subCategoryName}}</mat-option>
+                                    </mat-select>
+                                    <mat-hint>Optional subcategory for selected category can be added, if left unselected requirement is posted respective to category similar to selection all</mat-hint>
                                 </mat-form-field>
                                 <mat-form-field appearance="outline">
                                     <mat-label>Preferred location</mat-label>
@@ -35,7 +43,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="sl-checkbox">
-                                        <input id="terms2" type="checkbox" name="category" (change)="toggleShowContact($event)">
+                                        <input id="terms2" #contactCheckbox type="checkbox" name="category" (change)="toggleShowContact($event)">
                                         <label for="terms2">
                                         <span>Do you want to share contact info?</span>
                                     </label>

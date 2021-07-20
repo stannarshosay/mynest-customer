@@ -14,6 +14,7 @@ export class ChatService {
   stompClient:any = null;
   public hasRecievedMessage = new Subject<any>();
   public hasRecievedNotification = new Subject<any>();
+  public whenSamePageMessages = new Subject<any>();
   constructor(
     private http:HttpClient
   ) { }
@@ -53,6 +54,9 @@ export class ChatService {
   getRecievedNotification():Observable<any>{
     return this.hasRecievedNotification.asObservable();
   }
+  getSamePageMessagesStatus():Observable<any>{
+    return this.whenSamePageMessages.asObservable();
+  }
  
 
 
@@ -76,7 +80,12 @@ export class ChatService {
         that.playNotificationAudio();
        }       
      ); 
-    }, this.errorCallBack);
+    }, function(error:any){
+      console.log("errorCallBack -> " + error)
+      setTimeout(() => {
+          that.connectAndSubscribeToWebsocket();
+      }, 5000);
+    });
   }
   playMessageAudio(){
     let audio = new Audio();
@@ -89,12 +98,6 @@ export class ChatService {
     audio.src = "../../assets/sounds/notify.wav";
     audio.load();
     audio.play();
-  }
-  errorCallBack(error:any) {
-    console.log("errorCallBack -> " + error)
-    setTimeout(() => {
-        this.connectAndSubscribeToWebsocket();
-    }, 5000);
   }
   sendMessage(message:any):boolean{  
     if (this.stompClient !== null) {

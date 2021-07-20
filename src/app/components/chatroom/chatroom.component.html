@@ -13,7 +13,7 @@
                                     <h5>{{contact.vendorName}}</h5>
                                     <div fxLayout="row" fxLayoutAlign="space-between center">
                                         <h6><em>{{checkLength(contact.lastMessage?contact.lastMessage:'No messages yet')}}</em></h6>
-                                        <small>{{contact.lastMessageTime?contact.lastMessageTime:''}}</small>
+                                        <small>{{contact.lastMessageTime?getBeautifiedDate(contact.lastMessageTime):''}}</small>
                                     </div>
                                 </div>
                             </li>
@@ -37,10 +37,10 @@
                             <p class="text-center">No messages yet, start converstation!</p>
                         </div>
                         <div class="sl-messageUser__area sl-y-axis mCustomScrollbar" #chatbox>
-                            <div [class.chat-quote]="message.messageType == 'FILE'" [class.sl-messageUser__area--left]="message.recipientId != customerId" [class.sl-messageUser__area--right]="message.recipientId == customerId" *ngFor="let message of messages">
+                            <div [class.chat-quote]="message.messageType == 'FILE'" [class.sl-messageUser__area--left]="message.recipientId == customerId" [class.sl-messageUser__area--right]="message.recipientId != customerId" *ngFor="let message of messages">
                                 <p *ngIf="message.messageType == 'TEXT'">{{message.content}}</p>
                                 <p *ngIf="message.messageType == 'FILE'" matTooltip="click to download" (click)="downloadChatQuote(message.content)"><i class="ti-file"></i>&nbsp;&nbsp;{{message.content}}</p>
-                                <span>{{message.sentTime}}</span>
+                                <span>{{getBeautifiedDate(message.sentTime)}}</span>
                             </div>
                         </div>
                         <div class="sl-emoji" *ngIf="contacts.length">

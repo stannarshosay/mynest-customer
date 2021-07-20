@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { OwlOptions } from 'ngx-owl-carousel-o';
@@ -8,6 +8,7 @@ import { AdvertisementService } from 'src/app/services/advertisement.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { LocationService } from 'src/app/services/location.service';
 import { NewsfeedService } from 'src/app/services/newsfeed.service';
+import moment from 'moment';
 declare var $:any;
 @Component({
   selector: 'app-home',
@@ -93,8 +94,8 @@ export class HomeComponent implements OnInit {
     nav: false           
   }
   newsFeedsOptions: OwlOptions = {
-    autoplay:true,
-    autoplaySpeed:1000,
+    autoplay:false,
+    autoplaySpeed:3000,
     loop: false,
     rewind:true,
     mouseDrag: true,
@@ -182,6 +183,17 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+  getAdLink(adLink:any){
+    if((adLink)&&(adLink!="")){
+      if (!/^http[s]?:\/\//.test(adLink)) {
+          adLink = 'https://'+adLink;
+      }
+      window.open(
+        adLink,
+        '_blank'
+      );
+    }
+  }
   goToVendorListing(category:any){
       if(this.hasLocation){
         this.router.navigate(['providers/'+encodeURIComponent(category.categoryName)+"/"+category.categoryId]);
@@ -194,8 +206,8 @@ export class HomeComponent implements OnInit {
       }
   }
   checkLength(description:string){    
-     if(description.length>110){
-       return description.substring(0,110) +" ...";
+     if(description.length>95){
+       return description.substring(0,95) +" ...";
      }
      return description;
   }
@@ -204,5 +216,21 @@ export class HomeComponent implements OnInit {
       return encodeURIComponent(image);
     }
     return encodeURIComponent("default.jpg");
+  }
+  getShareLink(id:any){    
+    return encodeURIComponent("https://mynestonline.com/customer/newsfeed/"+id);
+  }
+  getEncoded(data:any){
+    return encodeURIComponent(data);
+  }
+  getBeautifiedDate(dateString:string){
+    let date = moment(dateString, "DD/MM/YYYY");
+    if(date.isSame(moment(),'day')){
+      return "Today";
+    }
+    if(date.isSame(moment().subtract(1,"days"),'day')){      
+      return "Yesterday";
+    }
+    return date.format('Do MMM YYYY');
   }
 }

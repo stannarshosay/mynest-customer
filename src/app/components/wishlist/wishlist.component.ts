@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
+import { ChatService } from 'src/app/services/chat.service';
 import { LoginService } from 'src/app/services/login.service';
 import { ProvidersService } from 'src/app/services/providers.service';
-declare var jQuery: any;
 
 @Component({
   selector: 'app-wishlist',
@@ -26,6 +26,7 @@ export class WishlistComponent implements OnInit {
     private providersService:ProvidersService,
     private snackBar:MatSnackBar,
     private loginService:LoginService,
+    private chatService:ChatService,
     private router:Router
   ) { }
 
@@ -117,18 +118,18 @@ export class WishlistComponent implements OnInit {
   getEncoded(data:any){
     return encodeURIComponent(data);
   }
-   //jquery
-   toggleShareHolder(event:any){
-    var _this = jQuery(event.target.parentNode);
-      if (_this.next('.sl-shareHolder__option').hasClass('sl-shareHolder--animatein')) {
-          _this.next('.sl-shareHolder__option').addClass('sl-shareHolder--animateout');
-          setTimeout(function() {
-              _this.next('.sl-shareHolder__option').removeClass('sl-shareHolder--animateout sl-shareHolder--animatein');
-          }, 550);
-      } else {
-          _this.next('.sl-shareHolder__option').toggleClass('sl-shareHolder--animatein');
-      }
-      event.stopPropagation();
+  goToChatroom(provider:any,event:any){
+    event.stopPropagation();
+    let contactData = {
+      lastMessage: "No messages yet",
+      lastMessageSentBy: null,
+      lastMessageTime: null,
+      vendorId: provider.vendorId,
+      vendorName: provider.companyName,
+      profilePic: provider.logo    
+    }; 
+    this.chatService.setContactData(contactData);
+    this.router.navigate(["/chatroom"]);
   }
 
 }

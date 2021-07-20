@@ -29,6 +29,7 @@ export class ProviderComponent implements OnInit {
   vendorId:string;
   serviceAd:string = encodeURIComponent("default.jpg");
   hasLoggedIn:boolean = false;
+  adLink:any = null;
   getLoginSetStatus:Subscription;
   getLocationSetStatus:Subscription;
   provider:any = {};
@@ -69,25 +70,42 @@ export class ProviderComponent implements OnInit {
         this.getOfferedServices();
       }
    });
+   this.getProvider();
+   this.getOfferedServices();
   }
   ngOnDestroy():void{
     this.getLoginSetStatus.unsubscribe();
     this.getLocationSetStatus.unsubscribe();
   }
   setServiceAd(){
-    let paramData={};
-    paramData["categoryId"] = this.services[0].categoryId;
-    paramData["district"] = localStorage.getItem("loc");
-    console.log(paramData);
-    this.providerService.getServiceAds(paramData).subscribe(res=>{
-      if(res["success"]){
-        this.serviceAd = encodeURIComponent(res["data"]);
-      }else{
+    if(localStorage.getItem("loc")){
+      let paramData={};
+      paramData["categoryId"] = this.services[0].categoryId;
+      paramData["district"] = localStorage.getItem("loc");
+      this.providerService.getServiceAds(paramData).subscribe(res=>{
+        if(res["success"]){
+          this.serviceAd = encodeURIComponent(res["data"]["adPicturePath"]);
+          this.adLink = encodeURIComponent(res["data"]["website"]);
+        }else{
+          this.serviceAd = encodeURIComponent("default.jpg");
+        }
+      },error=>{
         this.serviceAd = encodeURIComponent("default.jpg");
-      }
-    },error=>{
+      });
+    }else{
       this.serviceAd = encodeURIComponent("default.jpg");
-    });
+    }    
+  }
+  getAdLink(){
+    if((this.adLink)&&(this.adLink!="")){
+      if (!/^http[s]?:\/\//.test(this.adLink)) {
+          this.adLink = 'https://'+this.adLink;
+      }
+      window.open(
+        this.adLink,
+        '_blank'
+      );
+    }
   }
   getGalleryImages(){
     this.isGettingGalleryImages = true;
@@ -111,6 +129,63 @@ export class ProviderComponent implements OnInit {
       this.showSnackbar("Error fetching gallery images",true,"close");
     })
   }
+  getWishlistStatus(){
+    if(localStorage.getItem("uid")){
+    this.providerService.getWishlistStatus(localStorage.getItem("uid"),this.vendorId).subscribe(res=>{
+        if(res["success"]){           
+          this.provider["wishListed"] = true;              
+        }else{
+          this.provider["wishListed"] = false;  
+        }
+    },
+    error=>{
+      this.showSnackbar("No vendor details found for this ID",true,"close");
+    });    
+  }else{
+    this.provider["wishListed"] = false;
+  } 
+}
+toggleWishlist(event:any){
+  event.stopPropagation();
+  if(this.hasLoggedIn){
+    this.showSnackbar("Please wait...",false,"");
+    if(this.provider.wishListed){
+      this.providerService.removeFromWishlist(this.provider.vendorId,localStorage.getItem("uid")).subscribe(res=>{
+        if(res["success"]){
+          this.provider.wishListed = false;
+          this.showSnackbar(this.provider.companyName +" removed !",true,"close");
+          this.providerService.hasWishlistedOrRemoved.next("data");
+        }else{
+          this.showSnackbar("Server error !",true,"close");
+        }
+      },
+      error=>{
+        this.showSnackbar("Connection error !",true,"close");
+      });        
+    }else{
+      this.providerService.addToWishlist(this.provider.vendorId,localStorage.getItem("uid")).subscribe(res=>{
+        if(res["success"]){
+           this.provider.wishListed = true;
+           this.showSnackbar(this.provider.companyName +" wishlisted !",true,"close");
+           this.providerService.hasWishlistedOrRemoved.next("data");
+        }else{
+          this.showSnackbar("Server error !",true,"close");
+        }
+      },
+      error=>{
+        this.showSnackbar("Connection error !",true,"close");
+      });        
+    }
+  }else{
+    const dialogRef = this.dialog.open(LoginDialogComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=="signup"){
+          const dialogRef = this.dialog.open(SignupComponent);
+        }
+      });
+  }
+}
   pushDefaultGalleryImages(index:number){
     for(var i = 0;i<index;i++){
       const image = {          
@@ -125,6 +200,7 @@ export class ProviderComponent implements OnInit {
           if(res["success"]){
              this.provider = res["data"];
              this.updateMetaInformation();
+             this.getWishlistStatus();
           }else{
             this.showSnackbar("No vendor details found for this ID",true,"close");
           }
@@ -242,32 +318,29 @@ export class ProviderComponent implements OnInit {
   }
 
   goToChatroom(event:any){
-    event.stopPropagation();    
-    let contactData = {
-      lastMessage: "No messages yet",
-      lastMessageSentBy: null,
-      lastMessageTime: null,
-      vendorId: this.provider.vendorId,
-      vendorName: this.provider.companyName,
-      profilePic: this.provider.logo    
-    }; 
-    this.chatService.setContactData(contactData);
-    this.router.navigate(["/chatroom"]);
-  }
+    event.stopPropagation(); 
+    if(this.hasLoggedIn){   
+      let contactData = {
+        lastMessage: "No messages yet",
+        lastMessageSentBy: null,
+        lastMessageTime: null,
+        vendorId: this.provider.vendorId,
+        vendorName: this.provider.companyName,
+        profilePic: this.provider.logo    
+      }; 
+      this.chatService.setContactData(contactData);
+      this.router.navigate(["/chatroom"]);
+    }else{
+      const dialogRef = this.dialog.open(LoginDialogComponent);
 
-  //jquery
-  toggleShareHolder(event:any){
-    var _this = jQuery(event.target.parentNode);
-      if (_this.next('.sl-shareHolder__option').hasClass('sl-shareHolder--animatein')) {
-          _this.next('.sl-shareHolder__option').addClass('sl-shareHolder--animateout');
-          setTimeout(function() {
-              _this.next('.sl-shareHolder__option').removeClass('sl-shareHolder--animateout sl-shareHolder--animatein');
-          }, 550);
-      } else {
-          _this.next('.sl-shareHolder__option').toggleClass('sl-shareHolder--animatein');
-      }
-      event.stopPropagation();
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=="signup"){
+          const dialogRef = this.dialog.open(SignupComponent);
+        }
+      });
+    }
   }
+  
   openGallery(index: number): void {
     this.lightbox.open(this.imageGallery, index, this.lightboxConfig);
   }

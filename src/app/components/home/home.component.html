@@ -2,7 +2,7 @@
 <div class="sl-main-banner" *ngIf="showTopImages">
     <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingHomeTopImages"></mat-spinner>
     <owl-carousel-o [options]="mainBannerOptions" id="slBannerOwl" *ngIf="!isGettingHomeTopImages">
-        <ng-template *ngFor="let topAd of topAds" carouselSlide><img src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(topAd.picName)}}" alt="Image Description"></ng-template>
+        <ng-template *ngFor="let topAd of topAds" carouselSlide><img (click)="getAdLink(topAd.website)" [class.default-cursor]="topAd.website==null" src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(topAd.picName)}}" alt="Image Description"></ng-template>
     </owl-carousel-o>
 </div>
 <!-- BANNER END -->
@@ -329,7 +329,7 @@
     <div class="sl-main-banner" *ngIf="showBottomImages">
         <mat-spinner [diameter]="30" class="m-auto" *ngIf="isGettingHomeBottomImages"></mat-spinner>
         <owl-carousel-o [options]="mainBannerOptions" id="slBannerOwlBottom" *ngIf="!isGettingHomeBottomImages">
-            <ng-template *ngFor="let bottomAd of bottomAds" carouselSlide><img src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(bottomAd.picName)}}" alt="Image Description"></ng-template>
+            <ng-template *ngFor="let bottomAd of bottomAds" carouselSlide><img (click)="getAdLink(bottomAd.website)" [class.default-cursor]="bottomAd.website==null" src="https://mynestonline.com/collection/images/admin-advertisement/{{getImagePath(bottomAd.picName)}}" alt="Image Description"></ng-template>
         </owl-carousel-o>
     </div>
     <!-- BANNER END -->
@@ -359,7 +359,33 @@
                                     <div class="sl-featuredProducts--post__content">
                                         <div class="sl-featuredProducts--post__title">
                                             <h5>{{news.title}}</h5>
-                                            <time>{{news.createdDate}}</time>
+                                            <div fxLayout="row nowrap" fxLayoutAlign="space-between center">
+                                                <time>{{getBeautifiedDate(news.createdDate)}}</time>
+                                                <div class="sl-shareHolder">
+                                                    <a (click)="$event.stopPropagation()" mat-button [matMenuTriggerFor]="belowMenu" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                                                    <mat-menu #belowMenu="matMenu" yPosition="above" xPosition="before">
+                                                        <div class="sl-shareHolder__option">
+                                                            <ul class="sl-socialicons">
+                                                                <li class="sl-facebook">
+                                                                    <a (click)="$event.stopPropagation()" href="https://www.facebook.com/sharer/sharer.php?u={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                                                </li>
+                                                                <li class="sl-twitter">
+                                                                    <a (click)="$event.stopPropagation()" href="https://twitter.com/intent/tweet?url={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                                                </li>
+                                                                <li class="sl-rss">
+                                                                    <a (click)="$event.stopPropagation()" href="https://mail.google.com/mail/?view=cm&fs=1&su={{getEncoded(news.title)}}&body={{getShareLink(news.newsId)}}" target="_blank"><i class="far fa-envelope"></i></a>
+                                                                </li>
+                                                                <li class="sl-linkedin">
+                                                                    <a (click)="$event.stopPropagation()" href="https://www.linkedin.com/sharing/share-offsite/?url={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                                                </li>
+                                                                <li class="sl-whatsapp">
+                                                                    <a (click)="$event.stopPropagation()" href="https://wa.me/?text={{getShareLink(news.newsId)}}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </mat-menu>
+                                                </div>
+                                            </div>
                                             <div class="sl-description">
                                                 <p class="mn-news-p">{{checkLength(news.description)}}</p>
                                             </div>

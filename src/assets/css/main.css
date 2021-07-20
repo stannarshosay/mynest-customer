@@ -78,12 +78,12 @@ figure,
 
 .mn-notifications>li {
     background-color: #fff!important;
-    cursor: default!important;
+    cursor: pointer!important;
     position: relative;
 }
 
-.mn-notifications>li .sl-cart-title {
-    cursor: default!important;
+.sl-otpbox {
+    background: rgb(4, 144, 4);
 }
 
 .mn-notifications>li::before {
@@ -2249,6 +2249,8 @@ button.sl-btn:focus {
 .sl-loginicon ul {
     width: auto;
     margin: 0 -5px;
+    display: flex;
+    flex-wrap: nowrap;
     list-style: none;
     overflow: hidden;
 }
@@ -2686,6 +2688,7 @@ li:hover .mega-menu {
     border-radius: 50%;
     width: 50px;
     height: 50px;
+    object-fit: cover;
 }
 
 .sl-usermenu {
@@ -3313,22 +3316,9 @@ li:hover .mega-menu {
 }
 
 .sl-shareHolder__option {
-    display: none;
-    position: absolute;
-    right: 0;
-    width: 110px;
     cursor: auto;
-    bottom: 100%;
     padding: 10px;
     background: #fff;
-    -webkit-box-shadow: 10px 0 30px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 10px 0 30px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    top: unset !important;
-    left: unset !important;
-    transform: none !important;
-    right: 0 !important;
-    bottom: 20px !important;
 }
 
 .sl-shareHolder__option>span {
@@ -4330,6 +4320,10 @@ main {
     height: 5px;
     background-color: #ddd;
     border-radius: 50%;
+}
+
+.liked i::before {
+    color: red!important;
 }
 
 .sl-owl-dot .owl-dots .owl-dot:nth-last-child(n+2) {
@@ -8147,9 +8141,6 @@ i.at-color6 {
     .sl-closeasidebar {
         display: flex;
     }
-    .sl-sidebar-ad {
-        display: none;
-    }
     .sl-widget {
         padding: 30px 10px;
     }
@@ -9028,5 +9019,8 @@ i.at-color6 {
     .requirement-content>img {
         max-width: unset!important;
         flex: unset!important;
+    }
+    .sl-loginicon ul {
+        flex-direction: column;
     }
 }

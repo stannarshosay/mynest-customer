@@ -6,6 +6,7 @@ import { ChatService } from 'src/app/services/chat.service';
 import { LoginService } from 'src/app/services/login.service';
 import { ProvidersService } from 'src/app/services/providers.service';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { LoginOtpComponent } from '../login-otp/login-otp.component';
 
 @Component({
   selector: 'app-login-dialog',
@@ -68,6 +69,25 @@ export class LoginDialogComponent implements OnInit {
   }
   signup(){
     this.dialogRef.close("signup");    
+  }
+  loginWithOtp(){    
+    this.dialogRef.close();
+      const dialogRef = this.dialog.open(LoginOtpComponent,{
+        disableClose:true
+      });  
+      dialogRef.afterClosed().subscribe(result => {
+        if(result["isVerified"]){     
+          let loginData = result['data'];
+          localStorage.setItem("uid",loginData["id"]);
+          localStorage.setItem("username",loginData["username"]);
+          localStorage.setItem("email",loginData["email"]);
+          this.loginService.hasLoggedIn.next(true);
+          this.providerService.hasWishlistedOrRemoved.next("data");
+          this.chatService.hasRecievedMessage.next("no");
+          this.chatService.hasRecievedNotification.next("no");
+          this.showSnackbar("Otp Login Successfull!");
+        }
+      });   
   }
   forgotPassword(){
     this.dialogRef.close();

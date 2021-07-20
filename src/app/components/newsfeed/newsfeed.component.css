@@ -1,0 +1,9 @@
+::ng-deep .mat-menu-panel {
+    min-height: 52px!important;
+    z-index: 9;
+    overflow: unset!important;
+}
+
+.sl-blogsinglehead__blogpostmeta {
+    margin: 0px!important;
+}

@@ -17,6 +17,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatMenuModule} from '@angular/material/menu';
 
 //common
 
@@ -52,6 +53,9 @@ import { ChatroomComponent } from './components/chatroom/chatroom.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileSettingsComponent } from './components/profile-settings/profile-settings.component';
 import { ForgotPasswordComponent } from './dialogs/forgot-password/forgot-password.component';
+import { LoginOtpComponent } from './dialogs/login-otp/login-otp.component';
+import { FaqComponent } from './components/faq/faq.component';
+import { ProvidersListSubComponent } from './components/providers-list-sub/providers-list-sub.component';
 
 
 @NgModule({
@@ -77,7 +81,10 @@ import { ForgotPasswordComponent } from './dialogs/forgot-password/forgot-passwo
     ChatroomComponent,
     NotificationsComponent,
     ProfileSettingsComponent,
-    ForgotPasswordComponent     
+    ForgotPasswordComponent,
+    LoginOtpComponent,
+    FaqComponent,
+    ProvidersListSubComponent     
   ],
   imports: [
     BrowserModule,
@@ -104,7 +111,8 @@ import { ForgotPasswordComponent } from './dialogs/forgot-password/forgot-passwo
     MatStepperModule,
     MatExpansionModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

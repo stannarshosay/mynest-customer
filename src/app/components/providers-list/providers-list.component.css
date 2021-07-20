@@ -1,0 +1,13 @@
+::ng-deep .mat-menu-panel {
+    min-height: 52px!important;
+    z-index: 9;
+    overflow: unset!important;
+}
+
+.default-cursor {
+    cursor: default!important;
+}
+
+.sl-sidebar-ad {
+    cursor: pointer;
+}

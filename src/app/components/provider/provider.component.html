@@ -25,6 +25,7 @@
 <main class="sl-main z-one">
     <div class="container">
         <div class="sl-appointment">
+            <a href="javascript:void(0);" (click)="toggleWishlist($event)" class="sl-like" [class.liked]="provider.wishListed"><i class="fas fa-heart"></i></a>
             <a (click)="reportVendor()" class="report-provider sl-danger"><i class="ti-flag-alt"></i>&nbsp;Report</a>
             <div class="sl-appointment__img">
                 <img src="https://mynestonline.com/collection/images/company-logo/{{getImagePath(provider.logo)}}" alt="Image Description">
@@ -37,7 +38,7 @@
                 <h3>{{provider.companyName}}</h3>
                 <div class="sl-appointment__feature">
                     <div class="sl-appointment__location">
-                        <em><i class="ti-location-pin"></i>&nbsp;<a  (click) ="$event.stopPropagation()" href="https://www.google.com/maps/search/?api=1&query=9.9708673,76.2382528" target="_blank">{{provider.location}}</a></em>
+                        <em><i class="ti-location-pin"></i>&nbsp;<a  (click) ="$event.stopPropagation()" href="https://www.google.com/maps/search/?api=1&query={{provider.latitude}},{{provider.longitude}}" target="_blank">{{provider.location}}</a></em>
                     </div>
                 </div>
                 <div class="sl-detail">
@@ -46,23 +47,28 @@
                     </div>
                     <div class="sl-detail__report">
                         <div class="sl-shareHolder">
-                            <a (click)="toggleShareHolder($event)" class="slShareHolder"><i class="ti-sharethis"></i></a>
-                            <div class="sl-shareHolder__option">
-                                <ul class="sl-socialicons">
-                                    <li class="sl-facebook">
-                                        <a (click)="$event.stopPropagation()" href="https://www.facebook.com/sharer/sharer.php?u={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                    </li>
-                                    <li class="sl-twitter">
-                                        <a (click)="$event.stopPropagation()" href="https://twitter.com/intent/tweet?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-twitter"></i></a>
-                                    </li>
-                                    <li class="sl-rss">
-                                        <a (click)="$event.stopPropagation()" href="https://mail.google.com/mail/?view=cm&fs=1&su={{getEncoded(provider.companyName)}}&body={{getShareLink(provider.vendorId)}}" target="_blank"><i class="far fa-envelope"></i></a>
-                                    </li>
-                                    <li class="sl-linkedin">
-                                        <a (click)="$event.stopPropagation()" href="https://www.linkedin.com/sharing/share-offsite/?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <a (click)="$event.stopPropagation()" mat-button [matMenuTriggerFor]="belowMenu" class="slShareHolder"><i class="ti-sharethis"></i></a>
+                            <mat-menu #belowMenu="matMenu" yPosition="above" xPosition="before">
+                                <div class="sl-shareHolder__option">
+                                    <ul class="sl-socialicons">
+                                        <li class="sl-facebook">
+                                            <a (click)="$event.stopPropagation()" href="https://www.facebook.com/sharer/sharer.php?u={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+                                        <li class="sl-twitter">
+                                            <a (click)="$event.stopPropagation()" href="https://twitter.com/intent/tweet?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        </li>
+                                        <li class="sl-rss">
+                                            <a (click)="$event.stopPropagation()" href="https://mail.google.com/mail/?view=cm&fs=1&su={{getEncoded(provider.companyName)}}&body={{getShareLink(provider.vendorId)}}" target="_blank"><i class="far fa-envelope"></i></a>
+                                        </li>
+                                        <li class="sl-linkedin">
+                                            <a (click)="$event.stopPropagation()" href="https://www.linkedin.com/sharing/share-offsite/?url={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                        </li>
+                                        <li class="sl-whatsapp">
+                                            <a (click)="$event.stopPropagation()" href="https://wa.me/?text={{getShareLink(provider.vendorId)}}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </mat-menu>
                         </div>
                     </div>
                     <div class="sl-detail__date" matRipple [matRippleColor]="color">
@@ -106,8 +112,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="sl-sidebar-ad">
-                                    <a href="javascript:void(0);"><img src="https://mynestonline.com/collection/images/vendor-advertisement/{{serviceAd}}" alt="Image Description"></a>
+                                <div class="sl-sidebar-ad" (click)="getAdLink()">
+                                    <a href="javascript:void(0);" [class.default-cursor]="adLink==null"><img src="https://mynestonline.com/collection/images/vendor-advertisement/{{serviceAd}}" alt="Image Description"></a>
                                 </div>
                             </div>
                         </div>

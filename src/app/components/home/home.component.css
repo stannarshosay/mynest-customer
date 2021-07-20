@@ -1,0 +1,17 @@
+.default-cursor {
+    cursor: default!important;
+}
+
+#slBannerOwlBottom img {
+    cursor: pointer;
+}
+
+#slBannerOwl img {
+    cursor: pointer;
+}
+
+::ng-deep .mat-menu-panel {
+    min-height: 52px!important;
+    z-index: 9;
+    overflow: unset!important;
+}

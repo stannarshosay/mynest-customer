@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,19 +14,22 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./post-requirement.component.css']
 })
 export class PostRequirementComponent implements OnInit {
-
+  @ViewChild('formDirective') private formDirective: NgForm;  
+  @ViewChild('contactCheckbox') private contactCheckbox:ElementRef;
   color:string = "rgba(255,255,255,0.2)";
   darkColor:string = "rgba(0,0,0,0.1)";
 
   getLoginSetStatus:Subscription;
   isPosting:boolean = false;
   isGettingCategoryAndLocations:boolean = true;
+  isGettingSubcategories:boolean = true;
   showContact:boolean = false;
 
   imagePreview = [];
   imageFile:File=null;
 
   categories:any = [];
+  subCategories:any = [];
   locations:any = [];
 
   postRequirementForm: FormGroup;
@@ -44,6 +47,7 @@ export class PostRequirementComponent implements OnInit {
   ngOnInit(): void {
     this.postRequirementForm = this.fb.group({
       categoryId:['',Validators.required],
+      subCategoryId:[''],
       locations:['',Validators.required],
       description:['',Validators.required],
       contact:[null]
@@ -54,9 +58,34 @@ export class PostRequirementComponent implements OnInit {
       }
     });
     this.getAllCategories();
+    this.postRequirementForm.get("subCategoryId").disable();
+    this.postRequirementForm.get("categoryId").valueChanges.subscribe(res=>{
+      if(res){
+        this.getSubcategories(res);
+      }
+    });
   }
   ngOnDestroy():void{
     this.getLoginSetStatus.unsubscribe();
+  }
+  getSubcategories(categoryId:any){
+    this.subCategories = [];
+    this.isGettingSubcategories = true;
+    this.postRequirementForm.get("subCategoryId").disable();
+    this.showSnackbar("Fetching subcategories!",true,"close");
+    this.categoryService.getSubcategoriesByCategoryId(categoryId).subscribe(res=>{
+       if(res["success"]){
+          this.showSnackbar("Subcategories loaded!",true,"close");
+          this.postRequirementForm.get("subCategoryId").enable();
+          this.isGettingSubcategories = false;
+          this.subCategories = res["data"];
+       }else{
+        this.showSnackbar("Unable to fetch subcategories!",true,"close");
+       }
+    },error=>{
+      this.showSnackbar("Connection error!",true,"close");
+      console.log(error);
+    });
   }
   getAllCategories(){
     this.categoryService.getAllCategories().subscribe(res=>{
@@ -103,12 +132,18 @@ export class PostRequirementComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
   postRequirement(){
+    if(!this.isGettingSubcategories){
      if(this.postRequirementForm.valid){
-         this.isPosting = true;
+        this.isPosting = true;
         this.showSnackbar("Posting requirement...",false,"");
         let formData = {};
         formData = this.postRequirementForm.value;
         formData["customerId"] = localStorage.getItem("uid");
+        if(formData["subCategoryId"]){
+          formData["subCategoryName"] = this.subCategories.find(obj=>obj.subCategoryId == formData["subCategoryId"])["subCategoryName"];
+        }else{
+          delete formData["subCategoryId"];
+        }
         const uploadData = new FormData();
         uploadData.append('requirementDTO',new Blob([JSON.stringify(formData)], { type: "application/json"}));
         if(this.imageFile){
@@ -120,7 +155,10 @@ export class PostRequirementComponent implements OnInit {
             this.showSnackbar("Requirement posted successfully!",true,"close");
             this.imagePreview = [];
             this.imageFile = null;
-            this.postRequirementForm.reset();
+            this.postRequirementForm.get("subCategoryId").disable();            
+            this.showContact = false;
+            this.contactCheckbox.nativeElement.checked = false;
+            this.formDirective.resetForm(); 
           }else{ 
             this.showSnackbar("Server error!",true,"close");
           }
@@ -131,6 +169,9 @@ export class PostRequirementComponent implements OnInit {
      }else{
       this.showSnackbar("Please fill all required fields!",true,"close");
      }
+    }else{
+      this.showSnackbar("Please wait for subcategories to load!",true,"close");
+    }
   }
   toggleShowContact(event:any){
     this.postRequirementForm.get("contact").setValue(null);

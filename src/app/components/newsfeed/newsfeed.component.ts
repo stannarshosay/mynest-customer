@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NewsfeedService } from 'src/app/services/newsfeed.service';
-
+import moment from 'moment';
 @Component({
   selector: 'app-newsfeed',
   templateUrl: './newsfeed.component.html',
@@ -43,5 +43,21 @@ export class NewsfeedComponent implements OnInit {
       return encodeURIComponent(image);
     }
     return encodeURIComponent("default.jpg");
+  }
+  getShareLink(id:any){    
+    return encodeURIComponent("https://mynestonline.com/customer/newsfeed/"+id);
+  }
+  getEncoded(data:any){
+    return encodeURIComponent(data);
+  }
+  getBeautifiedDate(dateString:string){
+    let date = moment(dateString, "DD/MM/YYYY");
+    if(date.isSame(moment(),'day')){
+      return "Today";
+    }
+    if(date.isSame(moment().subtract(1,"days"),'day')){      
+      return "Yesterday";
+    }
+    return date.format('Do MMM YYYY');
   }
 }

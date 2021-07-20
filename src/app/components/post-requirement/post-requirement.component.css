@@ -1,0 +1,9 @@
+.subcategory-drop {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 620px) {
+    .subcategory-drop {
+        margin-bottom: 40px;
+    }
+}

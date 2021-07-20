@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, skip, withLatestFrom } from 'rxjs/operators';
+import { skip } from 'rxjs/operators';
 import { LoginDialogComponent } from 'src/app/dialogs/login-dialog/login-dialog.component';
 import { SignupComponent } from 'src/app/dialogs/signup/signup.component';
 import { CategoryService } from 'src/app/services/category.service';
@@ -13,12 +13,11 @@ import { LoginService } from 'src/app/services/login.service';
 import { ProvidersService } from 'src/app/services/providers.service';
 
 @Component({
-  selector: 'app-providers-list',
-  templateUrl: './providers-list.component.html',
-  styleUrls: ['./providers-list.component.css']
+  selector: 'app-providers-list-sub',
+  templateUrl: './providers-list-sub.component.html',
+  styleUrls: ['./providers-list-sub.component.css']
 })
-export class ProvidersListComponent implements OnInit {
-
+export class ProvidersListSubComponent implements OnInit {
   @ViewChildren("filterCheckboxes") filterCheckboxes: QueryList<ElementRef>;
 
   color:string = "rgba(255,255,255,0.2)";
@@ -55,7 +54,8 @@ export class ProvidersListComponent implements OnInit {
   ngOnInit(): void { 
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('categoryId');
-      this.categoryName = decodeURIComponent(params.get('categoryName')); 
+      this.categoryName = decodeURIComponent(params.get('categoryName'));  
+      this.subQuery = decodeURIComponent(params.get('subCategory'));  
       this.getSubcategories(this.categoryId);
     });
     this.getLocationSetStatus = this.locationService.getLocationSetStatus().pipe(skip(1)).subscribe(res =>{
@@ -126,7 +126,17 @@ export class ProvidersListComponent implements OnInit {
       if(response){
         if(response["success"]){
           this.subCategories = response["data"];
-          this.getProviders(0,9);
+          setTimeout(()=>{
+            if(!(this.subQuery == "undefined")){ 
+                this.filterCheckboxes.map(element=>{
+                  if(element.nativeElement.name == this.subQuery){
+                    element.nativeElement.checked = true;
+                  }
+                  return element;
+                });
+            }
+            this.getProviders(0,9);
+          }); 
         }else{
           this.isSubcategoryDataSuccess =false;
           this.canDefineSubArray = false;

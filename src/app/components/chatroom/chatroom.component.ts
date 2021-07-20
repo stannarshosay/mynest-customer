@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChatService } from 'src/app/services/chat.service';
 import { LoginService } from 'src/app/services/login.service';
-import { receiveMessageOnPort } from 'worker_threads';
-
+import moment from 'moment';
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chatroom.component.html',
@@ -17,6 +16,7 @@ export class ChatroomComponent implements OnInit {
  customerId:any; 
  getLoginSetStatus:Subscription;
  getRecievedMessagesSubscription:Subscription;
+ getSamePageMessagesSubscription:Subscription;
  isGettingContacts:boolean = false;
  showNoContacts:boolean = false;
  isGettingMessages:boolean = false;
@@ -45,11 +45,24 @@ export class ChatroomComponent implements OnInit {
          this.onRecieveMessage(res);
        }
     });
+    this.getSamePageMessagesSubscription = this.chatService.getSamePageMessagesStatus().subscribe(res=>{
+      if(res){
+        this.isGettingContacts = false;
+        this.showNoContacts = false;
+        this.isGettingMessages = false;
+        this.showNoMessages = false;
+        this.messages = [];
+        this.contactData = null;
+        this.contacts = [];
+        this.getAllContacts();  
+      }
+    });
     this.getAllContacts();    
   }
   ngOnDestroy():void{
     this.getLoginSetStatus.unsubscribe();
     this.getRecievedMessagesSubscription.unsubscribe();
+    this.getSamePageMessagesSubscription.unsubscribe();
   }
   showSnackbar(content:string,hasDuration:boolean,action:string){
     const config = new MatSnackBarConfig();
@@ -194,9 +207,7 @@ export class ChatroomComponent implements OnInit {
     return message;
  }
   getFormattedDate() {
-    var date = new Date();
-    var str =  date.getDate() + "/" + (date.getMonth() + 1) + "/" +date.getFullYear() + " " +  date.getUTCHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    return str;
+    return moment().format("DD/MM/YYYY HH:mm:ss");
   }
   ngAfterViewChecked() {        
     this.scrollToBottom();        
@@ -207,5 +218,15 @@ export class ChatroomComponent implements OnInit {
     } catch(err) { 
       console.log("error on scroll to bottom : "+err);
     }                 
+  }
+  getBeautifiedDate(dateString:string){
+    let date = moment(dateString, "DD/MM/YYYY HH:mm:ss");
+    if(date.isSame(moment(),'day')){
+      return "Today " + date.format('h:mm a');
+    }
+    if(date.isSame(moment().subtract(1,"days"),'day')){      
+      return "Yesterday " + date.format('h:mm a');
+    }
+    return date.format('Do MMM YYYY h:mm a');
   }
 }

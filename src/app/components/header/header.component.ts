@@ -14,7 +14,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { LocationService } from 'src/app/services/location.service';
 import { LoginService } from 'src/app/services/login.service';
 import { ProvidersService } from 'src/app/services/providers.service';
-
+import moment from 'moment';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -58,10 +58,28 @@ export class HeaderComponent implements OnInit {
               private customerService:CustomerService,
               private providerService :ProvidersService,
               private snackBar: MatSnackBar) { 
-    this.categoryService.getHomeCategories().subscribe(res => {
-      this.isCategoryLoaded = true,
-      this.isTyping = false,
-      this.searchCategories = res
+    this.categoryService.getCategoriesWithSubcategories().subscribe(res => {
+      if(res["success"]){
+        this.isCategoryLoaded = true;
+        this.isTyping = false;
+        let that = this;
+        res["data"].forEach(function(value:any) {
+            let categoryObject = {};
+            categoryObject["isCategory"] = true;
+            categoryObject["name"] = value.categoryName;
+            categoryObject["categoryName"] = value.categoryName;
+            categoryObject["categoryId"] = value.categoryId;
+            that.searchCategories.push(categoryObject);
+            value.subCategories.forEach(function(subValue:any){
+              let categoryObject = {};
+              categoryObject["isCategory"] = false;
+              categoryObject["name"] = subValue;
+              categoryObject["categoryId"] = value.categoryId;
+              categoryObject["categoryName"] = value.categoryName;
+              that.searchCategories.push(categoryObject);
+            });
+        });   
+      }
     });
   }
   
@@ -152,9 +170,25 @@ export class HeaderComponent implements OnInit {
       console.log('location dialog closed');
     });
   }
-
+  goToRespectivePage(notificationType:string,notificationId:any){
+    this.updateReadStatus(notificationId);
+    switch(notificationType){
+      case "NEW_QUOTE":{
+        this.router.navigateByUrl("/requirements");
+        break;
+      }
+      case "VENDOR_REPORT_ACCEPTED":{
+        this.router.navigateByUrl("/home");
+        break;
+      }
+      case "VENDOR_REPORT_REJECTED":{
+        this.router.navigateByUrl("/home");
+        break;
+      }      
+    }
+}
   private _filter(value: string): string[] {
-    return this.searchCategories.filter(option => option.categoryName.toLowerCase().includes(value.toLowerCase()));
+    return this.searchCategories.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
   }
   setCustomerProfilePic(){
     this.customerService.getDetailsByCustomerId(localStorage.getItem("uid")).subscribe(res=>{
@@ -172,12 +206,16 @@ export class HeaderComponent implements OnInit {
   goToCategories(){
     if(this.searchCategoryControl.valid){
       if(this.hasLocation){
-        let category = this.searchCategories.filter(obj => obj.categoryName == this.searchCategoryControl.value)[0];
+        let category = this.searchCategories.filter(obj => obj.name == this.searchCategoryControl.value)[0];
         if(category){
-         this.router.navigate(['providers/'+encodeURIComponent(category.categoryName)+"/"+category.categoryId]);
+          if(category.isCategory){
+            this.router.navigate(['providers/'+encodeURIComponent(category.categoryName)+"/"+category.categoryId]);
+          }else{
+            this.router.navigate(['providers/'+encodeURIComponent(category.categoryName)+"/"+category.categoryId+"/"+encodeURIComponent(category.name)]);
+          }
         }else{
           this.searchCategoryControl.setValue('');
-          this.showSnackbar("Please select from available categories",true,"close");       
+          this.showSnackbar("Please select from available categories or subcategories",true,"close");       
         }
       }else{
         this.locationSelector();
@@ -311,7 +349,30 @@ setNotificationsNav(){
  }
  goToChatroom(provider:any){  
   this.chatService.setContactData(provider);
+  if(this.router.url == "/chatroom"){
+    this.chatService.whenSamePageMessages.next(true);
+  }
   this.router.navigate(["/chatroom"]);
-}
-
+ }
+  getBeautifiedDate(dateString:string){
+    let date = moment(dateString, "DD/MM/YYYY HH:mm:ss");
+    if(date.isSame(moment(),'day')){
+      return "Today " + date.format('h:mm a');
+    }
+    if(date.isSame(moment().subtract(1,"days"),'day')){      
+      return "Yesterday " + date.format('h:mm a');
+    }
+    return date.format('Do MMM YYYY h:mm a');
+  }
+  updateReadStatus(notificationId:any){    
+    let paramData = {};
+    paramData["notificationIds"] = [notificationId];
+    if(paramData["notificationIds"].length){
+      this.chatService.updateNotificationReadStatus(paramData).subscribe(res=>{
+          this.chatService.hasRecievedNotification.next("no"); 
+      },error=>{
+        this.showSnackbar("Status update connection error!",true,"close");
+      });
+    }
+  }
 }

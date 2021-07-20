@@ -39,4 +39,7 @@ export class ProvidersService {
   getServiceAds(paramData:any){
     return this.http.post("https://mynestonline.com/collection/api/service-listing-ad",paramData);
   }
+  getWishlistStatus(customerId:string,vendorId:string){
+    return this.http.get("https://mynestonline.com/collection/api/vendor/wish-listed?vendorId="+vendorId+"&customerId="+customerId);
+  }
 }

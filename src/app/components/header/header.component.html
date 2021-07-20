@@ -13,8 +13,8 @@
                     <div class="sl-form-group sl-main-form__input1" [class.sl-loading]="isTyping">
                         <input class="form-control sl-form-control" type="text" placeholder="Search for services" [matAutocomplete]="categoryAuto" [formControl]="searchCategoryControl" (keyup)="toggleTyping()">
                         <mat-autocomplete #categoryAuto="matAutocomplete">
-                            <mat-option *ngFor="let category of filteredSearchCategories |async" [value]="category.categoryName">
-                                {{category.categoryName}}
+                            <mat-option *ngFor="let category of filteredSearchCategories |async" [value]="category.name">
+                                {{category.name}}
                             </mat-option>
                         </mat-autocomplete>
                     </div>
@@ -51,7 +51,7 @@
                                             <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.vendorName}}</strong></a>
                                             <div class="pt-1" fxLayout="row" fxLayoutAlign="space-between">
                                                 <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage)}}</em></a>
-                                                <a class="sl-cart-title" href="javascript:void(0);">{{message.lastMessageTime}}</a>
+                                                <a class="sl-cart-title" href="javascript:void(0);">{{getBeautifiedDate(message.lastMessageTime)}}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -80,10 +80,10 @@
                                 <mat-spinner [diameter]="30" class="m-auto" [hidden]="isNavNotificationsLoaded"></mat-spinner>
                                 <p *ngIf="(!navNotifications)&&(isLoggedIn)&&(isNavNotificationsLoaded)">No notifications yet!</p>
                                 <ul *ngIf="navNotifications" class="mn-notifications">
-                                    <li [class.sl-unread-messages]="!message.readStatus" *ngFor="let message of navNotifications">
+                                    <li [class.sl-unread-messages]="!message.readStatus" *ngFor="let message of navNotifications" (click)="goToRespectivePage(message.notificationType,message.notificationId)">
                                         <div class="sl-dropdown__cart__description fullwidth">
-                                            <a class="sl-cart-title" href="javascript:void(0);">{{message.message}}</a>
-                                            <a class="sl-cart-title pt-2" href="javascript:void(0);"><strong>{{message.createdDate}}</strong></a>
+                                            <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.message}}</strong></a>
+                                            <a class="sl-cart-title pt-2" href="javascript:void(0);">{{getBeautifiedDate(message.createdDate)}}</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -190,11 +190,11 @@
                             <li class="nav-item" routerLinkActive="sl-navactive">
                                 <a class="nav-link" routerLink="/categories">Categories</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" routerLinkActive="sl-navactive">
                                 <a class="nav-link" routerLink="/newsfeeds">News feeds</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0)">FAQ</a>
+                            <li class="nav-item" routerLinkActive="sl-navactive">
+                                <a class="nav-link" routerLink="/faq">FAQ</a>
                             </li>
                             <li class="nav-item show-mobile" fxLayout="row" fxLayoutAlign="center center">
                                 <div class="sl-main-header__lower--btn" matRipple [matRippleColor]="color">
@@ -227,7 +227,7 @@
                                             <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.vendorName}}</strong></a>
                                             <div class="pt-1" fxLayout="row" fxLayoutAlign="space-between">
                                                 <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage)}}</em></a>
-                                                <a class="sl-cart-title" href="javascript:void(0);">{{message.lastMessageTime}}</a>
+                                                <a class="sl-cart-title" href="javascript:void(0);">{{getBeautifiedDate(message.lastMessageTime)}}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -256,10 +256,10 @@
                                 <mat-spinner [diameter]="30" class="m-auto" [hidden]="isNavNotificationsLoaded"></mat-spinner>
                                 <p *ngIf="(!navNotifications)&&(isLoggedIn)&&(isNavNotificationsLoaded)">No notifications yet!</p>
                                 <ul *ngIf="navNotifications" class="mn-notifications">
-                                    <li [class.sl-unread-messages]="!message.readStatus" *ngFor="let message of navNotifications">
+                                    <li [class.sl-unread-messages]="!message.readStatus" *ngFor="let message of navNotifications" (click)="goToRespectivePage(message.notificationType,message.notificationId)">
                                         <div class="sl-dropdown__cart__description fullwidth">
-                                            <a class="sl-cart-title" href="javascript:void(0);">{{message.message}}</a>
-                                            <a class="sl-cart-title pt-2" href="javascript:void(0);"><strong>{{message.createdDate}}</strong></a>
+                                            <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.message}}</strong></a>
+                                            <a class="sl-cart-title pt-2" href="javascript:void(0);">{{getBeautifiedDate(message.createdDate)}}</a>
                                         </div>
                                     </li>
                                 </ul>

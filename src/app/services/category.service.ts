@@ -24,4 +24,7 @@ export class CategoryService {
   getSubcategoryByVendorId(vendorId:string){
     return this.http.post("https://mynestonline.com/collection/api/sub-category-vendor?vendorId="+vendorId,null);
   }
+  getCategoriesWithSubcategories():Observable<any>{
+    return this.http.get("https://mynestonline.com/collection/api/categories/all");
+  }
 }
