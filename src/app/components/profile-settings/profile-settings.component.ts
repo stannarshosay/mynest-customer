@@ -106,9 +106,20 @@ export class ProfileSettingsComponent implements OnInit {
   }
   
   onProfileSelect(event:any){
-    this.profileFile = event.target.files[0];
-    if(this.profileFile){  
-      this.uploadProfilePic(event);
+    var _size = event.target.files[0].size;
+    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),i=0;
+        while(_size>900)
+        {
+          _size/=1024;
+          i++;
+        }
+    if((((Math.round(_size*100)/100)>500)&&(i==1))||(i==3)||(i==2)){
+      this.showSnackbar("File size is larger than 500 KB",true,"okay");
+    }else{
+      this.profileFile = event.target.files[0];
+      if(this.profileFile){  
+        this.uploadProfilePic(event);
+      }
     }
   }  
   uploadProfilePic(fileEvent:any){

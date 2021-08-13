@@ -9,6 +9,7 @@ import { CategoryService } from 'src/app/services/category.service';
 import { LocationService } from 'src/app/services/location.service';
 import { NewsfeedService } from 'src/app/services/newsfeed.service';
 import moment from 'moment';
+import { DeviceDetectorService } from 'ngx-device-detector';
 declare var $:any;
 @Component({
   selector: 'app-home',
@@ -37,7 +38,8 @@ export class HomeComponent implements OnInit {
     private newsfeedService:NewsfeedService,
     private adService:AdvertisementService,
     private router:Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private deviceService:DeviceDetectorService 
     ) {
     this.categoryService.getHomeCategories().subscribe(res => {this.isCategoryLoaded = true,this.homeCategories = res.slice(0,10)});
     this.newsfeedService.getNewsfeeds(0,9).subscribe(res=>{
@@ -58,8 +60,13 @@ export class HomeComponent implements OnInit {
     this.getLocationSetStatus = this.locationService.getLocationSetStatus().subscribe(res =>{
       this.hasLocation = res
     }); 
-    this.getHomeAds("HOME_BANNER",true);
-    this.getHomeAds("HOME_BANNER_BOTTOM",false);
+    if(this.deviceService.isMobile()||this.deviceService.isTablet()){
+      this.getHomeAds("HOME_BANNER",true,true);
+      this.getHomeAds("HOME_BANNER_BOTTOM",false,true);
+    }else{
+      this.getHomeAds("HOME_BANNER",true,false);
+      this.getHomeAds("HOME_BANNER_BOTTOM",false,false);
+    }   
   }
   ngOnDestroy():void{
     this.getLocationSetStatus.unsubscribe();
@@ -155,8 +162,8 @@ export class HomeComponent implements OnInit {
   //   },
   //   navText: [ '<i class="ti-arrow-left"></i>', '<i class="ti-arrow-right"></i>' ]
   // }
-  getHomeAds(adType:string,isTop:boolean){     
-    this.adService.getHomeGalleryImagesByType(adType).subscribe(res=>{
+  getHomeAds(adType:string,isTop:boolean,isMobile:boolean){     
+    this.adService.getHomeGalleryImagesByType(adType,isMobile).subscribe(res=>{
       if(isTop){
         this.isGettingHomeTopImages = false;
       }else{

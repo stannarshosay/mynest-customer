@@ -50,8 +50,8 @@
                                         <div class="sl-dropdown__cart__description fullwidth">
                                             <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.vendorName}}</strong></a>
                                             <div class="pt-1" fxLayout="row" fxLayoutAlign="space-between">
-                                                <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage)}}</em></a>
-                                                <a class="sl-cart-title" href="javascript:void(0);">{{getBeautifiedDate(message.lastMessageTime)}}</a>
+                                                <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage?message.lastMessage:'No messages yet')}}</em></a>
+                                                <a class="sl-cart-title" href="javascript:void(0);">{{message.lastMessageTime?getBeautifiedDate(message.lastMessageTime):''}}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -226,8 +226,8 @@
                                         <div class="sl-dropdown__cart__description fullwidth">
                                             <a class="sl-cart-title" href="javascript:void(0);"><strong>{{message.vendorName}}</strong></a>
                                             <div class="pt-1" fxLayout="row" fxLayoutAlign="space-between">
-                                                <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage)}}</em></a>
-                                                <a class="sl-cart-title" href="javascript:void(0);">{{getBeautifiedDate(message.lastMessageTime)}}</a>
+                                                <a class="sl-cart-title" href="javascript:void(0);"><em>{{checkLength(message.lastMessage?message.lastMessage:'No messages yet')}}</em></a>
+                                                <a class="sl-cart-title" href="javascript:void(0);">{{message.lastMessageTime?getBeautifiedDate(message.lastMessageTime):''}}</a>
                                             </div>
                                         </div>
                                     </li>

@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, skip, withLatestFrom } from 'rxjs/operators';
+import { skip } from 'rxjs/operators';
 import { LoginDialogComponent } from 'src/app/dialogs/login-dialog/login-dialog.component';
 import { SignupComponent } from 'src/app/dialogs/signup/signup.component';
 import { CategoryService } from 'src/app/services/category.service';
@@ -56,7 +56,7 @@ export class ProvidersListComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.categoryId = params.get('categoryId');
       this.categoryName = decodeURIComponent(params.get('categoryName')); 
-      this.getSubcategories(this.categoryId);
+      this.setServiceAd();
     });
     this.getLocationSetStatus = this.locationService.getLocationSetStatus().pipe(skip(1)).subscribe(res =>{
        if(res){
@@ -64,7 +64,7 @@ export class ProvidersListComponent implements OnInit {
         this.setServiceAd();
        }
     });
-    this.getLoginSetStatus = this.loginService.getLoginSetStatus().pipe(skip(1)).subscribe(res=>{  
+    this.getLoginSetStatus = this.loginService.getLoginSetStatus().subscribe(res=>{  
         this.hasLoggedIn = res;    
         this.getSubcategories(this.categoryId);
     });

@@ -3604,6 +3604,7 @@ li:hover .mega-menu {
 }
 
 .sl-featuredProducts--post img {
+    object-fit: cover;
     width: 100%;
     height: 230px;
     border-radius: 6px 6px 0 0;
@@ -4344,7 +4345,10 @@ main {
 }
 
 .sl-sidebar-ad img {
-    width: 100%;
+    width: 300px;
+    height: 250px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .sl-sidebar-ad p {
@@ -6746,6 +6750,7 @@ i.at-color6 {
 .sl-blogsingle__img img {
     width: 50%;
     max-height: 300px;
+    object-fit: cover;
     margin: auto;
     box-shadow: 0px 3px 10px lightgrey;
     display: block;
@@ -7731,6 +7736,14 @@ i.at-color6 {
     margin-top: 55px;
 }
 
+.mn-sidebar-col {
+    max-width: 30%!important;
+}
+
+.mn-providers-row {
+    flex-wrap: nowrap!important;
+}
+
 @media (max-width: 1680px) {
     .sl-comingsoon .sl-comingsooncontent__description {
         width: 80%;
@@ -8628,8 +8641,8 @@ i.at-color6 {
         padding: 1.875rem 0.625rem;
     }
     .sl-asideholder {
-        padding: 30px 25px;
-        width: 298px;
+        padding: 20px 15px;
+        width: 350px;
     }
     .sl-productDescripton {
         padding: 19px 10px 23px;
@@ -9022,5 +9035,8 @@ i.at-color6 {
     }
     .sl-loginicon ul {
         flex-direction: column;
+    }
+    .mn-providers-row {
+        flex-wrap: wrap!important;
     }
 }

@@ -39,7 +39,8 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <div class="form-group">
-                                    <textarea class="form-control sl-form-control" formControlName="description" type="text" placeholder="Description*"></textarea>
+                                    <mat-hint>{{postRequirementForm.controls.description.value.length}}/{{maxDescriptionChars}}</mat-hint>
+                                    <textarea class="form-control sl-form-control" [maxLength]="maxDescriptionChars" formControlName="description" type="text" placeholder="Description*"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <div class="sl-checkbox">
@@ -53,12 +54,13 @@
                                     <input class="form-control sl-form-control" formControlName="contact" type="text" placeholder="Contact">
                                 </div>
                                 <br><br><br>
+                                <mat-hint>max 2 mb</mat-hint>
                                 <div class="form-group mn-uploader">
-                                    <input class="form-control sl-form-control" (change)="onImageSelect($event,imageFileInput)" type="file" hidden #imageFileInput accept="image/*">
+                                    <input class="form-control sl-form-control" (click)="imageFileInput.value = null" (change)="onImageSelect($event,imageFileInput)" type="file" hidden #imageFileInput accept="image/*">
                                     <div matRipple [matRippleColor]="color">
                                         <button [disabled]="isPosting" class="btn sl-btn sl-btn-active" (click)="imageFileInput.click()">Choose Image</button>
                                     </div>
-                                    <img *ngFor='let url of imagePreview' [src]="url" height="150" width="200px" style="margin: 3px;">
+                                    <img *ngFor='let url of imagePreview' [src]="url" height="150" width="200px" style="object-fit:cover;margin: 3px;">
                                 </div>
                             </div>
                         </fieldset>

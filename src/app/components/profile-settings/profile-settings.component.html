@@ -32,12 +32,13 @@
                         </div>
                         <fieldset>
                             <div class="sl-form__wrap">
+                                <mat-hint>max 500 kb, preffered dimension 200 x 150 in pixels</mat-hint>
                                 <div class="form-group mn-uploader">
-                                    <input class="form-control sl-form-control" (change)="onProfileSelect($event)" type="file" hidden #profileFileInput accept="image/*">
+                                    <input class="form-control sl-form-control" (click)="profileFileInput.value = null" (change)="onProfileSelect($event)" type="file" hidden #profileFileInput accept="image/*">
                                     <div matRipple [matRippleColor]="color">
                                         <button class="btn sl-btn sl-btn-active" (click)="profileFileInput.click()">Choose profile&nbsp;{{profileProgress==0?'':profileProgress+'%'}}</button>
                                     </div>
-                                    <img *ngFor='let url of profilePreview' [src]="url" height="150" width="200px" style="margin: 3px;border-radius: 4px;"> <br *ngIf="profilePreview.length" />
+                                    <img *ngFor='let url of profilePreview' [src]="url" height="150" width="200px" style="object-fit:cover;margin: 3px;border-radius: 4px;"> <br *ngIf="profilePreview.length" />
                                     <mat-progress-bar mode="determinate" *ngIf="profileProgress!=0" [value]="profileProgress"></mat-progress-bar>
                                 </div>
                             </div>

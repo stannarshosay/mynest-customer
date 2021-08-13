@@ -56,7 +56,7 @@ export class ProvidersListSubComponent implements OnInit {
       this.categoryId = params.get('categoryId');
       this.categoryName = decodeURIComponent(params.get('categoryName'));  
       this.subQuery = decodeURIComponent(params.get('subCategory'));  
-      this.getSubcategories(this.categoryId);
+      this.setServiceAd();
     });
     this.getLocationSetStatus = this.locationService.getLocationSetStatus().pipe(skip(1)).subscribe(res =>{
        if(res){
@@ -64,7 +64,7 @@ export class ProvidersListSubComponent implements OnInit {
         this.setServiceAd();
        }
     });
-    this.getLoginSetStatus = this.loginService.getLoginSetStatus().pipe(skip(1)).subscribe(res=>{  
+    this.getLoginSetStatus = this.loginService.getLoginSetStatus().subscribe(res=>{  
         this.hasLoggedIn = res;    
         this.getSubcategories(this.categoryId);
     });

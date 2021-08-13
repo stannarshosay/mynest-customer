@@ -18,7 +18,7 @@ export class PostRequirementComponent implements OnInit {
   @ViewChild('contactCheckbox') private contactCheckbox:ElementRef;
   color:string = "rgba(255,255,255,0.2)";
   darkColor:string = "rgba(0,0,0,0.1)";
-
+  maxDescriptionChars:string = "600";
   getLoginSetStatus:Subscription;
   isPosting:boolean = false;
   isGettingCategoryAndLocations:boolean = true;
@@ -124,12 +124,23 @@ export class PostRequirementComponent implements OnInit {
   }
   onImageSelect(event:any,fileInput:any){
     this.imagePreview = [];
-    this.imageFile = event.target.files[0];  
-    var reader = new FileReader();   
-    reader.onload = (event:any) => {
-      this.imagePreview.push(event.target.result);  
-    } 
-    reader.readAsDataURL(event.target.files[0]);
+    var _size = event.target.files[0].size;
+    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),i=0;
+        while(_size>900)
+        {
+          _size/=1024;
+          i++;
+        }
+    if((((Math.round(_size*100)/100)>2)&&(i==2))||(i==3)){
+      this.showSnackbar("File size is larger than 2 MB",true,"okay");
+    }else{
+      this.imageFile = event.target.files[0];    
+      var reader = new FileReader();   
+      reader.onload = (event:any) => {
+        this.imagePreview.push(event.target.result);  
+      } 
+      reader.readAsDataURL(event.target.files[0]);
+    }    
   }
   postRequirement(){
     if(!this.isGettingSubcategories){
@@ -146,10 +157,10 @@ export class PostRequirementComponent implements OnInit {
         }
         const uploadData = new FormData();
         uploadData.append('requirementDTO',new Blob([JSON.stringify(formData)], { type: "application/json"}));
-        if(this.imageFile){
+        if(this.imageFile){         
           uploadData.append('file', this.imageFile);
         }
-        this.customerService.postRequirement(uploadData,).subscribe(res=>{
+        this.customerService.postRequirement(uploadData).subscribe(res=>{
           this.isPosting = false;
           if(res["success"]){
             this.showSnackbar("Requirement posted successfully!",true,"close");
