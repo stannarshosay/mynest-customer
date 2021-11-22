@@ -39,7 +39,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 <div class="form-group">
-                                    <mat-hint>{{postRequirementForm.controls.description.value.length}}/{{maxDescriptionChars}}</mat-hint>
+                                    <mat-hint>{{postRequirementForm.controls.description.value?postRequirementForm.controls.description.value.length:0}}/{{maxDescriptionChars}}</mat-hint>
                                     <textarea class="form-control sl-form-control" [maxLength]="maxDescriptionChars" formControlName="description" type="text" placeholder="Description*"></textarea>
                                 </div>
                                 <div class="form-group">
